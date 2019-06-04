@@ -25,7 +25,7 @@ SECRET_KEY = '@j^8_xb2i15igwv_gwd%pxmx#q)r&f)$t!qx#ov=zq#cz=s*=@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['evening-taiga-61292.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['evening-taiga-61292.herokuapp.com', '127.0.0.1','localhost']
 
 
 # Application definition
