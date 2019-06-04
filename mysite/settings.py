@@ -25,7 +25,7 @@ SECRET_KEY = '@j^8_xb2i15igwv_gwd%pxmx#q)r&f)$t!qx#ov=zq#cz=s*=@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['evening-taiga-61292.herokuapp.com']
+ALLOWED_HOSTS = ['evening-taiga-61292.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -132,6 +132,6 @@ STATICFILES_DIRS = [os.path.join(ROOT_PATH, 'static')]
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID = 'AKIAIKACRG43CGFLQT5Q'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ID','AKIAIKACRG43CGFLQT5Q')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_KEY','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')
 AWS_STORAGE_BUCKET_NAME = 'ebrusnewbucket'
