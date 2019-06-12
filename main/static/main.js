@@ -36,10 +36,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
+/* harmony import */ var _product_list_product_list_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./product-list/product-list.component */ "./src/app/product-list/product-list.component.ts");
+/* harmony import */ var _foodlist_foodlist_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./foodlist/foodlist.component */ "./src/app/foodlist/foodlist.component.ts");
+/* harmony import */ var _clothinglist_clothinglist_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./clothinglist/clothinglist.component */ "./src/app/clothinglist/clothinglist.component.ts");
+/* harmony import */ var _specialorder_specialorder_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./specialorder/specialorder.component */ "./src/app/specialorder/specialorder.component.ts");
 
 
 
-var routes = [];
+
+
+
+
+
+var routes = [
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: 'home', component: _home_home_component__WEBPACK_IMPORTED_MODULE_3__["HomeComponent"] },
+    { path: 'products', component: _product_list_product_list_component__WEBPACK_IMPORTED_MODULE_4__["ProductListComponent"] },
+    { path: 'foodlist', component: _foodlist_foodlist_component__WEBPACK_IMPORTED_MODULE_5__["FoodlistComponent"] },
+    { path: 'clothinglist', component: _clothinglist_clothinglist_component__WEBPACK_IMPORTED_MODULE_6__["ClothinglistComponent"] },
+    { path: 'specialorders', component: _specialorder_specialorder_component__WEBPACK_IMPORTED_MODULE_7__["SpecialorderComponent"] }
+];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
@@ -74,7 +91,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<app-header></app-header>\n<div style=\"text-align:center\">\n  <h1>\n    Welcome to {{ title }}!\n  </h1>\n  <img width=\"300\" alt=\"Angular Logo\" src=\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==\">\n</div>\n<h2>Here are some links to help you start: </h2>\n<ul>\n  <li>\n    <h2><a target=\"_blank\" rel=\"noopener\" href=\"https://angular.io/tutorial\">Tour of Heroes</a></h2>\n  </li>\n  <li>\n    <h2><a target=\"_blank\" rel=\"noopener\" href=\"https://angular.io/cli\">CLI Documentation</a></h2>\n  </li>\n  <li>\n    <h2><a target=\"_blank\" rel=\"noopener\" href=\"https://blog.angular.io/\">Angular blog</a></h2>\n  </li>\n</ul>\n<button class =\"btn btn-primary\">click this </button>\n<router-outlet></router-outlet>\n<ul>\n  <li *ngFor= \"let value of images\"><p>{{value.name}}</p><img src=\"{{value.url}}\"></li>\n</ul>"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<app-header></app-header>\n\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -141,6 +158,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _header_header_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./header/header.component */ "./src/app/header/header.component.ts");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
+/* harmony import */ var _home_carousel_carousel_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./home/carousel/carousel.component */ "./src/app/home/carousel/carousel.component.ts");
+/* harmony import */ var _home_image_links_image_links_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./home/image-links/image-links.component */ "./src/app/home/image-links/image-links.component.ts");
+/* harmony import */ var _home_link_cards_link_cards_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./home/link-cards/link-cards.component */ "./src/app/home/link-cards/link-cards.component.ts");
+/* harmony import */ var _product_list_product_list_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./product-list/product-list.component */ "./src/app/product-list/product-list.component.ts");
+/* harmony import */ var _dropdown_directive__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./dropdown.directive */ "./src/app/dropdown.directive.ts");
+/* harmony import */ var _clothinglist_clothinglist_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./clothinglist/clothinglist.component */ "./src/app/clothinglist/clothinglist.component.ts");
+/* harmony import */ var _foodlist_foodlist_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./foodlist/foodlist.component */ "./src/app/foodlist/foodlist.component.ts");
+/* harmony import */ var _specialorder_specialorder_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./specialorder/specialorder.component */ "./src/app/specialorder/specialorder.component.ts");
+
+
+
+
+
+
+
+
+
 
 
 
@@ -155,7 +190,16 @@ var AppModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
-                _header_header_component__WEBPACK_IMPORTED_MODULE_5__["HeaderComponent"]
+                _header_header_component__WEBPACK_IMPORTED_MODULE_5__["HeaderComponent"],
+                _home_home_component__WEBPACK_IMPORTED_MODULE_7__["HomeComponent"],
+                _home_carousel_carousel_component__WEBPACK_IMPORTED_MODULE_8__["CarouselComponent"],
+                _home_image_links_image_links_component__WEBPACK_IMPORTED_MODULE_9__["ImageLinksComponent"],
+                _home_link_cards_link_cards_component__WEBPACK_IMPORTED_MODULE_10__["LinkCardsComponent"],
+                _product_list_product_list_component__WEBPACK_IMPORTED_MODULE_11__["ProductListComponent"],
+                _dropdown_directive__WEBPACK_IMPORTED_MODULE_12__["DropdownDirective"],
+                _clothinglist_clothinglist_component__WEBPACK_IMPORTED_MODULE_13__["ClothinglistComponent"],
+                _foodlist_foodlist_component__WEBPACK_IMPORTED_MODULE_14__["FoodlistComponent"],
+                _specialorder_specialorder_component__WEBPACK_IMPORTED_MODULE_15__["SpecialorderComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -167,6 +211,162 @@ var AppModule = /** @class */ (function () {
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/clothinglist/clothinglist.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/clothinglist/clothinglist.component.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjbG90aGluZ2xpc3QvY2xvdGhpbmdsaXN0LmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/clothinglist/clothinglist.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/clothinglist/clothinglist.component.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  clothinglist works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/clothinglist/clothinglist.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/clothinglist/clothinglist.component.ts ***!
+  \********************************************************/
+/*! exports provided: ClothinglistComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ClothinglistComponent", function() { return ClothinglistComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var ClothinglistComponent = /** @class */ (function () {
+    function ClothinglistComponent() {
+    }
+    ClothinglistComponent.prototype.ngOnInit = function () {
+    };
+    ClothinglistComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-clothinglist',
+            template: __webpack_require__(/*! ./clothinglist.component.html */ "./src/app/clothinglist/clothinglist.component.html"),
+            styles: [__webpack_require__(/*! ./clothinglist.component.css */ "./src/app/clothinglist/clothinglist.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+    ], ClothinglistComponent);
+    return ClothinglistComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/dropdown.directive.ts":
+/*!***************************************!*\
+  !*** ./src/app/dropdown.directive.ts ***!
+  \***************************************/
+/*! exports provided: DropdownDirective */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DropdownDirective", function() { return DropdownDirective; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var DropdownDirective = /** @class */ (function () {
+    function DropdownDirective() {
+        this.dropped = false;
+    }
+    //dropped = false
+    DropdownDirective.prototype.dropToggle = function () {
+        this.dropped = true;
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["HostBinding"])('class.show'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Object)
+    ], DropdownDirective.prototype, "dropped", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"])('click'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Function),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", []),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:returntype", void 0)
+    ], DropdownDirective.prototype, "dropToggle", null);
+    DropdownDirective = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Directive"])({
+            selector: '[appDropdown]'
+        })
+    ], DropdownDirective);
+    return DropdownDirective;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/foodlist/foodlist.component.css":
+/*!*************************************************!*\
+  !*** ./src/app/foodlist/foodlist.component.css ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJmb29kbGlzdC9mb29kbGlzdC5jb21wb25lbnQuY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/foodlist/foodlist.component.html":
+/*!**************************************************!*\
+  !*** ./src/app/foodlist/foodlist.component.html ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  foodlist works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/foodlist/foodlist.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/foodlist/foodlist.component.ts ***!
+  \************************************************/
+/*! exports provided: FoodlistComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FoodlistComponent", function() { return FoodlistComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var FoodlistComponent = /** @class */ (function () {
+    function FoodlistComponent() {
+    }
+    FoodlistComponent.prototype.ngOnInit = function () {
+    };
+    FoodlistComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-foodlist',
+            template: __webpack_require__(/*! ./foodlist.component.html */ "./src/app/foodlist/foodlist.component.html"),
+            styles: [__webpack_require__(/*! ./foodlist.component.css */ "./src/app/foodlist/foodlist.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+    ], FoodlistComponent);
+    return FoodlistComponent;
 }());
 
 
@@ -238,7 +438,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n  <a class=\"navbar-brand\" href=\"#\">Navbar</a>\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n\n  <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n    <ul class=\"navbar-nav mr-auto\">\n      <li class=\"nav-item active\">\n        <a class=\"nav-link\" href=\"#\">Home <span class=\"sr-only\">(current)</span></a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">Link</a>\n      </li>\n      <li class=\"nav-item dropdown\">\n        <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n          Dropdown\n        </a>\n        <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdown\">\n          <a class=\"dropdown-item\" href=\"#\">Action</a>\n          <a class=\"dropdown-item\" href=\"#\">Another action</a>\n          <div class=\"dropdown-divider\"></div>\n          <a class=\"dropdown-item\" href=\"#\">Something else here</a>\n        </div>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link disabled\" href=\"#\" tabindex=\"-1\" aria-disabled=\"true\">Disabled</a>\n      </li>\n    </ul>\n    <form class=\"form-inline my-2 my-lg-0\">\n      <input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n      <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n    </form>\n  </div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n  <a class=\"navbar-brand\" href=\"\">Navbar</a>\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n\n  <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n    <ul class=\"navbar-nav mr-auto\">\n      <li class=\"nav-item active\">\n        <a class=\"nav-link\" routerLink=\"/home\" routerLinkActive=\"active\">home</a>\n      </li>\n      <li class=\"nav-item\">\n        \n        <a class=\"nav-link\" routerLink=\"/products\" routerLinkActive=\"active\">products</a>\n      </li>\n      <li class=\"nav-item dropdown \">\n        <a (click)=\"dropdown()\" class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" >\n          Product categories\n        </a>\n        <div  [class.show]=\"show\" class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\" >\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/foodlist\">Food</a>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/clothinglist\">Clothing</a>\n          <div class=\"dropdown-divider\"></div>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/specialorders\">Special orders</a>\n        </div>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link disabled\" href=\"#\" tabindex=\"-1\" aria-disabled=\"true\">Register</a>\n      </li>\n    </ul>\n    <form class=\"form-inline my-2 my-lg-0\">\n      <input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n      <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n    </form>\n  </div>\n</nav>"
 
 /***/ }),
 
@@ -258,7 +458,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var HeaderComponent = /** @class */ (function () {
     function HeaderComponent() {
+        this.show = false;
     }
+    HeaderComponent.prototype.dropdown = function () {
+        this.show = !this.show;
+    };
     HeaderComponent.prototype.ngOnInit = function () {
     };
     HeaderComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -270,6 +474,402 @@ var HeaderComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
     ], HeaderComponent);
     return HeaderComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/home/carousel/carousel.component.css":
+/*!******************************************************!*\
+  !*** ./src/app/home/carousel/carousel.component.css ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJob21lL2Nhcm91c2VsL2Nhcm91c2VsLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/home/carousel/carousel.component.html":
+/*!*******************************************************!*\
+  !*** ./src/app/home/carousel/carousel.component.html ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div id=\"carouselExampleControls\" class=\"carousel slide\" data-ride=\"carousel\"  >\n  <div class=\"carousel-inner\">\n    <div class=\"carousel-item active\">\n      <img [src]=\"selected_image\" class=\"img-fluid\" style =\"width: 100%; height: 20vw; object-fit: cover\"  alt=\"...\">\n    </div>\n    <div class=\"carousel-item\">\n      <img src=\"\" class=\"d-block w-100\" alt=\"...\">\n    </div>\n    <div class=\"carousel-item\">\n      <img src=\"\" class=\"d-block w-100\" alt=\"...\">\n    </div>\n  </div>\n  <a class=\"carousel-control-prev\"  role=\"button\" data-slide=\"prev\"(click)=\"previousImage($event)\">\n    <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n    <span class=\"sr-only\">Previous</span>\n  </a>\n  <a class=\"carousel-control-next\"  role=\"button\" data-slide=\"next\"(click)=\"nextImage($event)\">\n    <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n    <span class=\"sr-only\">Next</span>\n  </a>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/home/carousel/carousel.component.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/home/carousel/carousel.component.ts ***!
+  \*****************************************************/
+/*! exports provided: CarouselComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CarouselComponent", function() { return CarouselComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_get_images_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/get-images.service */ "./src/app/get-images.service.ts");
+
+
+
+var CarouselComponent = /** @class */ (function () {
+    function CarouselComponent(getimages) {
+        this.getimages = getimages;
+        this.carousel_index = 0;
+        this.images = [];
+    }
+    CarouselComponent.prototype.carouselPlusOne = function () {
+        this.carousel_index = (this.carousel_index + 1) % (this.images.length);
+    };
+    CarouselComponent.prototype.nextImage = function (event) {
+        this.carouselPlusOne();
+        while (this.images[this.carousel_index].url == false) {
+            this.carouselPlusOne();
+        }
+        this.selected_image = this.images[this.carousel_index].url;
+    };
+    CarouselComponent.prototype.carouselMinusOne = function () {
+        if (this.carousel_index > 0) {
+            this.carousel_index = (this.carousel_index - 1);
+        }
+        else {
+            this.carousel_index = this.images.length - 1;
+        }
+    };
+    CarouselComponent.prototype.previousImage = function (event) {
+        this.carouselMinusOne();
+        while (this.images[this.carousel_index].url == false) {
+            this.carouselMinusOne();
+        }
+        this.selected_image = this.images[this.carousel_index].url;
+    };
+    CarouselComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.getimages.getImages()
+            .subscribe(function (data) {
+            _this.images = data;
+            _this.selected_image = _this.images[_this.carousel_index].url;
+        });
+    };
+    CarouselComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-carousel',
+            template: __webpack_require__(/*! ./carousel.component.html */ "./src/app/home/carousel/carousel.component.html"),
+            styles: [__webpack_require__(/*! ./carousel.component.css */ "./src/app/home/carousel/carousel.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_get_images_service__WEBPACK_IMPORTED_MODULE_2__["GetImagesService"]])
+    ], CarouselComponent);
+    return CarouselComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/home/home.component.css":
+/*!*****************************************!*\
+  !*** ./src/app/home/home.component.css ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJob21lL2hvbWUuY29tcG9uZW50LmNzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/home/home.component.html":
+/*!******************************************!*\
+  !*** ./src/app/home/home.component.html ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<!-- <ul>\n  <li *ngFor= \"let value of images\"><p>{{value.name}}</p><img src=\"{{value.url}}\"></li>\n</ul> -->\n<app-carousel></app-carousel>\n<button class=\"btn btn-primary\">dont click</button>\n\n<div class=\"container-fluid\">\n\n  <div class=\"row justify-content-center\">\n    <app-image-links></app-image-links>\n  </div>\n  <div class=\"row justify-content-center\">\n    <app-link-cards></app-link-cards>\n  </div>\n\n  <div class=\"row justify-content-center\">\n    <h1> PAY US A VISIT</h1>\n  </div>\n  <div class=\"row justify-content-center\">\n  <p>\n    Stop by our shop at some address\n  </p>\n\n</div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/home/home.component.ts":
+/*!****************************************!*\
+  !*** ./src/app/home/home.component.ts ***!
+  \****************************************/
+/*! exports provided: HomeComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomeComponent", function() { return HomeComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var HomeComponent = /** @class */ (function () {
+    function HomeComponent() {
+    }
+    HomeComponent.prototype.ngOnInit = function () {
+    };
+    HomeComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-home',
+            template: __webpack_require__(/*! ./home.component.html */ "./src/app/home/home.component.html"),
+            styles: [__webpack_require__(/*! ./home.component.css */ "./src/app/home/home.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+    ], HomeComponent);
+    return HomeComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/home/image-links/image-links.component.css":
+/*!************************************************************!*\
+  !*** ./src/app/home/image-links/image-links.component.css ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJob21lL2ltYWdlLWxpbmtzL2ltYWdlLWxpbmtzLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/home/image-links/image-links.component.html":
+/*!*************************************************************!*\
+  !*** ./src/app/home/image-links/image-links.component.html ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container-fluid\">\n    <div class=\"row justify-content-center\">\n      <div class=\"col-8 \" style=\"border: solid green;\">\n        <a  href=\"/products/products\"><img [src]=images[0].url class=\"img-fluid\"></a>\n        <!-- <p style=\"background: gray; border:solid; border-color:rgb(77, 72, 72); position: absolute;font-family:Impact, Charcoal, sans-serif; top:90%; left: 80%\">books</p>\n      --> \n      </div>\n      \n    </div>\n    <div class=\"row justify-content-center\">\n        <div class=\"col-8 \" style=\"border: solid green;\">\n            <a  href=\"/products/products\"><img [src]=images[1].url class=\"img-fluid\"></a>\n        </div>\n        \n      </div>\n      <div class=\"row justify-content-center\">\n          <div class=\"col-8 \" style=\"border: solid green;\">\n              <a  href=\"/products/products\"><img [src]=images[3].url class=\"img-fluid\"></a>\n          </div>\n          \n        </div>\n   \n  </div>"
+
+/***/ }),
+
+/***/ "./src/app/home/image-links/image-links.component.ts":
+/*!***********************************************************!*\
+  !*** ./src/app/home/image-links/image-links.component.ts ***!
+  \***********************************************************/
+/*! exports provided: ImageLinksComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ImageLinksComponent", function() { return ImageLinksComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_get_images_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/get-images.service */ "./src/app/get-images.service.ts");
+
+
+
+var ImageLinksComponent = /** @class */ (function () {
+    function ImageLinksComponent(getimages) {
+        this.getimages = getimages;
+    }
+    ImageLinksComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.getimages.getImages()
+            .subscribe(function (data) {
+            _this.images = data;
+        });
+    };
+    ImageLinksComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-image-links',
+            template: __webpack_require__(/*! ./image-links.component.html */ "./src/app/home/image-links/image-links.component.html"),
+            styles: [__webpack_require__(/*! ./image-links.component.css */ "./src/app/home/image-links/image-links.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_get_images_service__WEBPACK_IMPORTED_MODULE_2__["GetImagesService"]])
+    ], ImageLinksComponent);
+    return ImageLinksComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/home/link-cards/link-cards.component.css":
+/*!**********************************************************!*\
+  !*** ./src/app/home/link-cards/link-cards.component.css ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJob21lL2xpbmstY2FyZHMvbGluay1jYXJkcy5jb21wb25lbnQuY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/home/link-cards/link-cards.component.html":
+/*!***********************************************************!*\
+  !*** ./src/app/home/link-cards/link-cards.component.html ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container-fluid\">\n  <div class=\"row\">\n\n    <div class=\"col-sm\">\n      <div class=\"card\" style=\"width: 18rem;\">\n\n        <a href=\"/products/products\"><img [src]=images[0].url class=\"card-img-top\"></a>\n        <div class=\"card-body\">\n          <p class=\"card-text\">Some quick example text to build on the card title and make up the bulk of the card's\n            content.</p>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"col-sm\">\n      <div class=\"card\" style=\"width: 18rem;\">\n\n        <a href=\"/products/products\"><img [src]=images[1].url class=\"card-img-top\"></a>\n        <div class=\"card-body\">\n          <p class=\"card-text\">Some quick example text to build on the card title and make up the bulk of the card's\n            content.</p>\n        </div>\n      </div>\n    </div>\n    <div class=\"col-sm\">\n      <div class=\"card\" style=\"width: 18rem;\">\n\n        <a href=\"/products/products\"><img [src]=images[3].url class=\"card-img-top\"></a>\n        <div class=\"card-body\">\n          <p class=\"card-text\">Some quick example text to build on the card title and make up the bulk of the card's\n            content.</p>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/home/link-cards/link-cards.component.ts":
+/*!*********************************************************!*\
+  !*** ./src/app/home/link-cards/link-cards.component.ts ***!
+  \*********************************************************/
+/*! exports provided: LinkCardsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LinkCardsComponent", function() { return LinkCardsComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_get_images_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/get-images.service */ "./src/app/get-images.service.ts");
+
+
+
+var LinkCardsComponent = /** @class */ (function () {
+    function LinkCardsComponent(getimages) {
+        this.getimages = getimages;
+    }
+    LinkCardsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.getimages.getImages()
+            .subscribe(function (data) {
+            _this.images = data;
+        });
+    };
+    LinkCardsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-link-cards',
+            template: __webpack_require__(/*! ./link-cards.component.html */ "./src/app/home/link-cards/link-cards.component.html"),
+            styles: [__webpack_require__(/*! ./link-cards.component.css */ "./src/app/home/link-cards/link-cards.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_get_images_service__WEBPACK_IMPORTED_MODULE_2__["GetImagesService"]])
+    ], LinkCardsComponent);
+    return LinkCardsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/product-list/product-list.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/product-list/product-list.component.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJwcm9kdWN0LWxpc3QvcHJvZHVjdC1saXN0LmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/product-list/product-list.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/product-list/product-list.component.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container-fluid\">\n  <div class=\"row\" *ngFor=\"let value of images\">\n    <div class=\"col-sm-4\">\n      <img [src]=\"value.url\" style=\"width:100%;margin-bottom:1em;\">\n      <div style=\"height: 100%\"></div>\n    </div>\n    <div class=\"col-sm-8\">\n      <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius laoreet massa,\n        in semper erat suscipit ac. Fusce pharetra, diam et egestas facilisis,\n        ex tortor ornare justo, consectetur blandit enim mauris et mauris. Ut ipsum velit,\n        rhoncus nec cursus vel, accumsan at sapien. Donec porta eros et libero posuere,\n        id tristique nunc vehicula. Nam et ligula in purus consequat consectetur sit amet nec sem.\n        Nunc sed molestie turpis. Sed et scelerisque tortor, ultrices consequat metus.\n        Morbi vestibulum lobortis lectus at imperdiet.\n        Etiam et justo arcu. Pellentesque luctus ante eu auctor hendrerit.\n        Cras et lacus tempus, semper enim in, gravida purus. Nunc sed porta quam.\n        Vivamus cursus diam id aliquet aliquam. Cras vestibulum, nulla nec fringilla ornare,\n        ante mi dictum ex, sollicitudin placerat libero quam vitae lectus.</p>\n    </div>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/product-list/product-list.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/product-list/product-list.component.ts ***!
+  \********************************************************/
+/*! exports provided: ProductListComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductListComponent", function() { return ProductListComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _get_images_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../get-images.service */ "./src/app/get-images.service.ts");
+
+
+
+var ProductListComponent = /** @class */ (function () {
+    function ProductListComponent(getimages) {
+        this.getimages = getimages;
+    }
+    ProductListComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.getimages.getImages()
+            .subscribe(function (data) {
+            _this.images = data;
+        });
+    };
+    ProductListComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-product-list',
+            template: __webpack_require__(/*! ./product-list.component.html */ "./src/app/product-list/product-list.component.html"),
+            styles: [__webpack_require__(/*! ./product-list.component.css */ "./src/app/product-list/product-list.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_get_images_service__WEBPACK_IMPORTED_MODULE_2__["GetImagesService"]])
+    ], ProductListComponent);
+    return ProductListComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/specialorder/specialorder.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/specialorder/specialorder.component.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcGVjaWFsb3JkZXIvc3BlY2lhbG9yZGVyLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/specialorder/specialorder.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/specialorder/specialorder.component.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  specialorder works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/specialorder/specialorder.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/specialorder/specialorder.component.ts ***!
+  \********************************************************/
+/*! exports provided: SpecialorderComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpecialorderComponent", function() { return SpecialorderComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var SpecialorderComponent = /** @class */ (function () {
+    function SpecialorderComponent() {
+    }
+    SpecialorderComponent.prototype.ngOnInit = function () {
+    };
+    SpecialorderComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-specialorder',
+            template: __webpack_require__(/*! ./specialorder.component.html */ "./src/app/specialorder/specialorder.component.html"),
+            styles: [__webpack_require__(/*! ./specialorder.component.css */ "./src/app/specialorder/specialorder.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+    ], SpecialorderComponent);
+    return SpecialorderComponent;
 }());
 
 
