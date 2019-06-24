@@ -9,9 +9,16 @@ from products.serializers import ProductsSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+@api_view(['GET',])
+def product_search(request, query, format = None):
+    if request.method == 'GET':        
+        products = Product.objects.filter(productName__contains = query)
+        serializer = ProductsSerializer(products, many = True)
+        return Response(serializer.data)
+
 @api_view(['GET','POST'])
 def product_list(request, format = None):
-    if request.method == 'GET':
+    if request.method == 'GET':        
         products = Product.objects.all()
         serializer = ProductsSerializer(products, many = True)
         return Response(serializer.data)
@@ -25,12 +32,13 @@ def product_list(request, format = None):
 
 @api_view(['GET','POST','DELETE'])
 def product_detail(request, pk, format = None):
+    
     try:
         product = Product.objects.get(pk=pk)
     except Product.DoesNotExist:
         return Response(status = status.HTTP_404_NOT_FOUND)
 
-    if request.method == 'GET':
+    if request.method == 'GET':     
         serializer = ProductsSerializer(product)
         return Response(serializer.data)
 
