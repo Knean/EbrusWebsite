@@ -41,6 +41,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _foodlist_foodlist_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./foodlist/foodlist.component */ "./src/app/foodlist/foodlist.component.ts");
 /* harmony import */ var _clothinglist_clothinglist_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./clothinglist/clothinglist.component */ "./src/app/clothinglist/clothinglist.component.ts");
 /* harmony import */ var _specialorder_specialorder_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./specialorder/specialorder.component */ "./src/app/specialorder/specialorder.component.ts");
+/* harmony import */ var _product_detail_product_detail_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./product-detail/product-detail.component */ "./src/app/product-detail/product-detail.component.ts");
+
 
 
 
@@ -55,7 +57,9 @@ var routes = [
     { path: 'products', component: _product_list_product_list_component__WEBPACK_IMPORTED_MODULE_4__["ProductListComponent"] },
     { path: 'foodlist', component: _foodlist_foodlist_component__WEBPACK_IMPORTED_MODULE_5__["FoodlistComponent"] },
     { path: 'clothinglist', component: _clothinglist_clothinglist_component__WEBPACK_IMPORTED_MODULE_6__["ClothinglistComponent"] },
-    { path: 'specialorders', component: _specialorder_specialorder_component__WEBPACK_IMPORTED_MODULE_7__["SpecialorderComponent"] }
+    { path: 'specialorders', component: _specialorder_specialorder_component__WEBPACK_IMPORTED_MODULE_7__["SpecialorderComponent"] },
+    { path: 'detail/:pk', component: _product_detail_product_detail_component__WEBPACK_IMPORTED_MODULE_8__["ProductDetailComponent"] },
+    { path: "**", redirectTo: "home" }
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -167,6 +171,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _clothinglist_clothinglist_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./clothinglist/clothinglist.component */ "./src/app/clothinglist/clothinglist.component.ts");
 /* harmony import */ var _foodlist_foodlist_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./foodlist/foodlist.component */ "./src/app/foodlist/foodlist.component.ts");
 /* harmony import */ var _specialorder_specialorder_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./specialorder/specialorder.component */ "./src/app/specialorder/specialorder.component.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _product_detail_product_detail_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./product-detail/product-detail.component */ "./src/app/product-detail/product-detail.component.ts");
+
+
 
 
 
@@ -199,12 +207,15 @@ var AppModule = /** @class */ (function () {
                 _dropdown_directive__WEBPACK_IMPORTED_MODULE_12__["DropdownDirective"],
                 _clothinglist_clothinglist_component__WEBPACK_IMPORTED_MODULE_13__["ClothinglistComponent"],
                 _foodlist_foodlist_component__WEBPACK_IMPORTED_MODULE_14__["FoodlistComponent"],
-                _specialorder_specialorder_component__WEBPACK_IMPORTED_MODULE_15__["SpecialorderComponent"]
+                _specialorder_specialorder_component__WEBPACK_IMPORTED_MODULE_15__["SpecialorderComponent"],
+                _product_detail_product_detail_component__WEBPACK_IMPORTED_MODULE_17__["ProductDetailComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_6__["HttpClientModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_16__["ReactiveFormsModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_16__["FormsModule"]
             ],
             providers: [],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
@@ -407,6 +418,15 @@ var GetImagesService = /** @class */ (function () {
             return fixedobject;
         }));
     };
+    GetImagesService.prototype.searchProducts = function (query) {
+        return this.http.get("https://evening-taiga-61292.herokuapp.com/api/search/" + query);
+    };
+    GetImagesService.prototype.getProducts = function () {
+        return this.http.get("https://evening-taiga-61292.herokuapp.com/api/products");
+    };
+    GetImagesService.prototype.getProductDetail = function (pk) {
+        return this.http.get("https://evening-taiga-61292.herokuapp.com/api/products/" + pk);
+    };
     GetImagesService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
@@ -438,7 +458,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n  <a class=\"navbar-brand\" href=\"\">Navbar</a>\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n\n  <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n    <ul class=\"navbar-nav mr-auto\">\n      <li class=\"nav-item active\">\n        <a class=\"nav-link\" routerLink=\"/home\" routerLinkActive=\"active\">home</a>\n      </li>\n      <li class=\"nav-item\">\n        \n        <a class=\"nav-link\" routerLink=\"/products\" routerLinkActive=\"active\">products</a>\n      </li>\n      <li class=\"nav-item dropdown \">\n        <a (click)=\"dropdown()\" class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" >\n          Product categories\n        </a>\n        <div  [class.show]=\"show\" class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\" >\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/foodlist\">Food</a>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/clothinglist\">Clothing</a>\n          <div class=\"dropdown-divider\"></div>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/specialorders\">Special orders</a>\n        </div>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link disabled\" href=\"#\" tabindex=\"-1\" aria-disabled=\"true\">Register</a>\n      </li>\n    </ul>\n    <form class=\"form-inline my-2 my-lg-0\">\n      <input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n      <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n    </form>\n  </div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n  <a class=\"navbar-brand\" href=\"\">Navbar</a>\n  <button class=\"navbar-toggler \" (click)=displayNav() type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n\n  <div class=\"collapse navbar-collapse \"[class.show]= \"navShow\" id=\"navbarSupportedContent\">\n    <ul class=\"navbar-nav mr-auto\">\n      <li class=\"nav-item active\">\n        <a class=\"nav-link\" routerLink=\"/home\" routerLinkActive=\"active\">home</a>\n      </li>\n      <li class=\"nav-item\">\n        \n        <a class=\"nav-link\" routerLink=\"/products\" routerLinkActive=\"active\">products</a>\n      </li>\n      <li class=\"nav-item dropdown \">\n        <a (click)=\"dropdown()\" class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" >\n          Product categories\n        </a>\n        <div  [class.show]=\"show\" class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\" >\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/foodlist\">Food</a>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/clothinglist\">Clothing</a>\n          <div class=\"dropdown-divider\"></div>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/specialorders\">Special orders</a>\n        </div>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link disabled\" href=\"#\" tabindex=\"-1\" aria-disabled=\"true\">Register</a>\n      </li>\n    </ul>\n    <form [formGroup] = \"searchForm\" (ngSubmit)=\"onSubmit()\" class=\"form-inline my-2 my-lg-0\">\n      <input formControlName = \"query\" class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n      <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n    </form>\n  </div>\n</nav>"
 
 /***/ }),
 
@@ -454,16 +474,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeaderComponent", function() { return HeaderComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
+
 
 
 var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent() {
+    function HeaderComponent(router) {
+        this.router = router;
         this.show = false;
+        this.navShow = false;
     }
     HeaderComponent.prototype.dropdown = function () {
         this.show = !this.show;
     };
+    HeaderComponent.prototype.displayNav = function () {
+        this.navShow = !this.navShow;
+    };
+    HeaderComponent.prototype.onSubmit = function () {
+        /* console.log(this.searchForm.get('query').value) */
+        this.router.navigate(['products'], { queryParams: { 'search': this.searchForm.get('query').value } });
+    };
     HeaderComponent.prototype.ngOnInit = function () {
+        this.searchForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({ 'query': new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required) });
     };
     HeaderComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -471,7 +505,7 @@ var HeaderComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./header.component.html */ "./src/app/header/header.component.html"),
             styles: [__webpack_require__(/*! ./header.component.css */ "./src/app/header/header.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], HeaderComponent);
     return HeaderComponent;
 }());
@@ -756,6 +790,76 @@ var LinkCardsComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/product-detail/product-detail.component.css":
+/*!*************************************************************!*\
+  !*** ./src/app/product-detail/product-detail.component.css ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJwcm9kdWN0LWRldGFpbC9wcm9kdWN0LWRldGFpbC5jb21wb25lbnQuY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/product-detail/product-detail.component.html":
+/*!**************************************************************!*\
+  !*** ./src/app/product-detail/product-detail.component.html ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\">\n\n\n  <div *ngIf = \"displayedImage\" class=\"row justify-content-center\">\n    <div class=\"col-sm-6 py-3\">\n      <img [src]=\"displayedImage\" style =\"height: 60vh\" class=\"img-fluid\" (click)=\"imgClick($event)\">\n    </div>\n  </div>\n  <div class=\"row\">\n\n    <div *ngFor=\"let item of product.image_set; index as i\" class=\"col-sm-3\">\n      <img [src]=\"product.image_set[i].url\" style=\"height: 12em\" [attr.data-index]=\"i\" (click)=\"imgClick($event)\">\n    </div>\n\n\n  </div>\n  <div class=\"row\">\n    <p>\n      {{product.productName}}<br>{{product.description}}\n    </p>\n\n    <table class=\"table\">\n      <thead>\n        <tr>\n          <th scope=\"col\">#</th>\n          <th scope=\"col\">Option</th>\n          <th scope=\"col\">Price</th>\n          <th scope=\"col\">Availability</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <th scope=\"row\">1</th>\n          <td>Mark</td>\n          <td>9.99$</td>\n          <td>5</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">2</th>\n          <td>Jacob</td>\n          <td>9.99$</td>\n          <td>10</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">3</th>\n          <td>Larry</td>\n          <td>9.99$</td>\n          <td>12</td>\n        </tr>\n      </tbody>\n    </table>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/product-detail/product-detail.component.ts":
+/*!************************************************************!*\
+  !*** ./src/app/product-detail/product-detail.component.ts ***!
+  \************************************************************/
+/*! exports provided: ProductDetailComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProductDetailComponent", function() { return ProductDetailComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _get_images_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../get-images.service */ "./src/app/get-images.service.ts");
+
+
+
+
+var ProductDetailComponent = /** @class */ (function () {
+    function ProductDetailComponent(route, service) {
+        this.route = route;
+        this.service = service;
+    }
+    ProductDetailComponent.prototype.imgClick = function (event) {
+        console.log(event.target.dataset.index);
+        var index = event.target.dataset.index;
+        this.displayedImage = this.product.image_set[index].url;
+    };
+    ProductDetailComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        var pk = this.route.snapshot.paramMap.get('pk');
+        this.service.getProductDetail(pk).subscribe(function (data) { return _this.product = data; });
+    };
+    ProductDetailComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-product-detail',
+            template: __webpack_require__(/*! ./product-detail.component.html */ "./src/app/product-detail/product-detail.component.html"),
+            styles: [__webpack_require__(/*! ./product-detail.component.css */ "./src/app/product-detail/product-detail.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _get_images_service__WEBPACK_IMPORTED_MODULE_3__["GetImagesService"]])
+    ], ProductDetailComponent);
+    return ProductDetailComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/product-list/product-list.component.css":
 /*!*********************************************************!*\
   !*** ./src/app/product-list/product-list.component.css ***!
@@ -774,7 +878,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n  <div class=\"row\" *ngFor=\"let value of images\">\n    <div class=\"col-sm-4\">\n      <img [src]=\"value.url\" style=\"width:100%;margin-bottom:1em;\">\n      <div style=\"height: 100%\"></div>\n    </div>\n    <div class=\"col-sm-8\">\n      <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla varius laoreet massa,\n        in semper erat suscipit ac. Fusce pharetra, diam et egestas facilisis,\n        ex tortor ornare justo, consectetur blandit enim mauris et mauris. Ut ipsum velit,\n        rhoncus nec cursus vel, accumsan at sapien. Donec porta eros et libero posuere,\n        id tristique nunc vehicula. Nam et ligula in purus consequat consectetur sit amet nec sem.\n        Nunc sed molestie turpis. Sed et scelerisque tortor, ultrices consequat metus.\n        Morbi vestibulum lobortis lectus at imperdiet.\n        Etiam et justo arcu. Pellentesque luctus ante eu auctor hendrerit.\n        Cras et lacus tempus, semper enim in, gravida purus. Nunc sed porta quam.\n        Vivamus cursus diam id aliquet aliquam. Cras vestibulum, nulla nec fringilla ornare,\n        ante mi dictum ex, sollicitudin placerat libero quam vitae lectus.</p>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"container-fluid\">\n  <div class=\"row\" *ngFor=\"let value of images; index as i\" >\n    <div class=\"col-sm-4\">\n      <img [src]=\"value.image_set[0]? value.image_set[0]['url']: ''\" style=\"width:100%;margin-bottom:1em;\" [attr.data-index]=\"value.id\" (click)=\"navigate($event)\">\n      <div style=\"height: 100%\"></div>\n    </div>\n    <div class=\"col-sm-8\">\n      <p> {{value.productName}}</p>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -791,18 +895,45 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _get_images_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../get-images.service */ "./src/app/get-images.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
 
 
 
 var ProductListComponent = /** @class */ (function () {
-    function ProductListComponent(getimages) {
+    function ProductListComponent(getimages, activeroute, router) {
         this.getimages = getimages;
+        this.activeroute = activeroute;
+        this.router = router;
     }
-    ProductListComponent.prototype.ngOnInit = function () {
+    ProductListComponent.prototype.loadresults = function (query) {
         var _this = this;
-        this.getimages.getImages()
+        this.getimages.searchProducts(this.activeroute.snapshot.queryParams.search).subscribe(function (data) {
+            _this.images = data;
+        });
+    };
+    ProductListComponent.prototype.loadallresults = function () {
+        var _this = this;
+        this.getimages.getProducts()
             .subscribe(function (data) {
             _this.images = data;
+        });
+    };
+    ProductListComponent.prototype.navigate = function (event) {
+        /* console.log(event.target.dataset) */
+        this.router.navigate(["detail/" + event.target.dataset.index]);
+    };
+    ProductListComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.activeroute.queryParams.subscribe(function (queryParams) {
+            if (queryParams.search) {
+                _this.loadresults(queryParams.search);
+                console.log('loading search results');
+            }
+            else {
+                _this.loadallresults();
+                console.log('loading all results');
+            }
         });
     };
     ProductListComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -811,7 +942,7 @@ var ProductListComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./product-list.component.html */ "./src/app/product-list/product-list.component.html"),
             styles: [__webpack_require__(/*! ./product-list.component.css */ "./src/app/product-list/product-list.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_get_images_service__WEBPACK_IMPORTED_MODULE_2__["GetImagesService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_get_images_service__WEBPACK_IMPORTED_MODULE_2__["GetImagesService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], ProductListComponent);
     return ProductListComponent;
 }());
