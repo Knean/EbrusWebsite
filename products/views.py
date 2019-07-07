@@ -1,5 +1,8 @@
 from django.shortcuts import render
-
+import stripe
+from django.http import JsonResponse
+import django.http.response
+from django.conf import settings
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -52,4 +55,21 @@ def product_detail(request, pk, format = None):
     elif request.method == 'DELETE':
         product.delete()
         return HttpResponse(status = status.HTTP_204_NO_CONTENT)
+    
+@api_view(['POST'])
+def create_charge(request):
+    stripe.api_key = settings.STRIPE_TEST_API_KEY
+    try:
+        charge = stripe.Charge.create(
+            amount = 299,
+            currency = 'eur',
+            description = ' example charge',
+            source = request.data.get("token"),
+            statement_descriptor = 'practicing'
+        )
+        print(charge, ' this is a charge')
+        return JsonResponse({"success":True})
+    except:
+        return JsonResponse({"success":False})
+
 

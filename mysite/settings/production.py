@@ -137,3 +137,5 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ID','AKIAIKACRG43CGFLQT5Q')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_KEY','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')
 AWS_STORAGE_BUCKET_NAME = 'ebrusnewbucket'
+
+STRIPE_TEST_API_KEY = os.environ.get('STRIPE_TEST_API_KEY')
