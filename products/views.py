@@ -12,6 +12,8 @@ from products.serializers import ProductsSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 @api_view(['GET',])
 def product_search(request, query, format = None):
     if request.method == 'GET':        
@@ -72,4 +74,37 @@ def create_charge(request):
     except:
         return JsonResponse({"success":False})
 
+@api_view(['POST'])
+def create_user(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    new_user = User.objects.create_user(username,'',password)
+    new_user.save()
+    return Response(data= None, status = 201)
 
+@api_view(['GET'])
+def get_user(request):
+    
+    print(request.user)
+    return JsonResponse({"name": request.user.username, 'age':'18'})
+
+@api_view(['POST'])
+@csrf_exempt
+def login_user(request):
+    #print(request.META['HTTP_X_CSRFTOKEN'], 'loooooooooooooooooooogin')
+    username = request.data.get('username')
+    password = request.data.get('password')
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return JsonResponse({'LoggedIn':True})
+        ...
+    else:
+        # Return an 'invalid login' error message.
+        return JsonResponse({'LoggedIn':False})
+        ...
+@csrf_exempt
+@api_view(['GET'])
+def logout_user(request):
+    logout(request)
+    return Response(data= None, status = 200)
