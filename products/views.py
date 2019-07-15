@@ -17,7 +17,7 @@ from django.contrib.auth import authenticate, login, logout
 @api_view(['GET',])
 def product_search(request, query, format = None):
     if request.method == 'GET':        
-        products = Product.objects.filter(productName__contains = query)
+        products = Product.objects.filter(productName__icontains = query)
         serializer = ProductsSerializer(products, many = True)
         return Response(serializer.data)
 
