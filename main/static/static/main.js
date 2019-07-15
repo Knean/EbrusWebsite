@@ -274,7 +274,7 @@ var AuthenticationService = /** @class */ (function () {
     function AuthenticationService(http, cookie) {
         this.http = http;
         this.cookie = cookie;
-        this.user_object = { name: 'someuser', age: '28' };
+        this.user_object = { name: 'pleasework', age: '28' };
         this.user = new rxjs__WEBPACK_IMPORTED_MODULE_4__["BehaviorSubject"](this.user_object);
     }
     AuthenticationService.prototype.register = function (username, password) {
