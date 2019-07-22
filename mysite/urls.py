@@ -16,10 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from .views import home_page
+from cart.views import updatecart, get_cart
 
 urlpatterns = [
     path('admin/', admin.site.urls),    
     path('api-auth/', include('rest_framework.urls')),
     path('api/',include('products.urls')),
+    path('cart/',updatecart),
+    path('getCart/',get_cart),
     re_path(r'^(?P<remainder>.*)$', home_page.as_view()),
 ]

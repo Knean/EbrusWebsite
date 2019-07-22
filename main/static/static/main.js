@@ -45,6 +45,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _billing_billing_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./billing/billing.component */ "./src/app/billing/billing.component.ts");
 /* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
 /* harmony import */ var _profile_profile_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./profile/profile.component */ "./src/app/profile/profile.component.ts");
+/* harmony import */ var _checkout_checkout_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./checkout/checkout.component */ "./src/app/checkout/checkout.component.ts");
+
 
 
 
@@ -68,6 +70,7 @@ var routes = [
     { path: 'donate', component: _billing_billing_component__WEBPACK_IMPORTED_MODULE_9__["BillingComponent"] },
     { path: 'register', component: _register_register_component__WEBPACK_IMPORTED_MODULE_10__["RegisterComponent"] },
     { path: 'profile', component: _profile_profile_component__WEBPACK_IMPORTED_MODULE_11__["ProfileComponent"] },
+    { path: 'checkout', component: _checkout_checkout_component__WEBPACK_IMPORTED_MODULE_12__["CheckoutComponent"] },
     { path: "**", redirectTo: "home" }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -122,14 +125,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _get_images_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./get-images.service */ "./src/app/get-images.service.ts");
+/* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./authentication.service */ "./src/app/authentication.service.ts");
+
 
 
 
 
 var AppComponent = /** @class */ (function () {
-    function AppComponent(http, getimages) {
+    function AppComponent(http, getimages, auth) {
         this.http = http;
         this.getimages = getimages;
+        this.auth = auth;
         this.images = [];
         this.title = 'ebrusite';
     }
@@ -137,6 +143,7 @@ var AppComponent = /** @class */ (function () {
         var _this = this;
         this.getimages.getImages()
             .subscribe(function (data) { console.log("original data ", data), _this.images = data, console.log(_this.images); });
+        this.auth.refreshCart();
     };
     AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -145,7 +152,9 @@ var AppComponent = /** @class */ (function () {
             providers: [_get_images_service__WEBPACK_IMPORTED_MODULE_3__["GetImagesService"]],
             styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], _get_images_service__WEBPACK_IMPORTED_MODULE_3__["GetImagesService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
+            _get_images_service__WEBPACK_IMPORTED_MODULE_3__["GetImagesService"],
+            _authentication_service__WEBPACK_IMPORTED_MODULE_4__["AuthenticationService"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -186,6 +195,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
 /* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
 /* harmony import */ var _profile_profile_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./profile/profile.component */ "./src/app/profile/profile.component.ts");
+/* harmony import */ var _checkout_checkout_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./checkout/checkout.component */ "./src/app/checkout/checkout.component.ts");
+
 
 
 
@@ -229,7 +240,8 @@ var AppModule = /** @class */ (function () {
                 _billing_billing_component__WEBPACK_IMPORTED_MODULE_18__["BillingComponent"],
                 _register_register_component__WEBPACK_IMPORTED_MODULE_19__["RegisterComponent"],
                 _login_login_component__WEBPACK_IMPORTED_MODULE_20__["LoginComponent"],
-                _profile_profile_component__WEBPACK_IMPORTED_MODULE_21__["ProfileComponent"]
+                _profile_profile_component__WEBPACK_IMPORTED_MODULE_21__["ProfileComponent"],
+                _checkout_checkout_component__WEBPACK_IMPORTED_MODULE_22__["CheckoutComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -276,6 +288,28 @@ var AuthenticationService = /** @class */ (function () {
         this.cookie = cookie;
         this.user_object = { name: 'pleasework', age: '28' };
         this.user = new rxjs__WEBPACK_IMPORTED_MODULE_4__["BehaviorSubject"](this.user_object);
+        this.tempcart = {
+            "id": 26,
+            "total": "5.55",
+            "products": [
+                {
+                    "product_id": 1,
+                    "price": 0.0,
+                    "name": "also a good name"
+                },
+                {
+                    "product_id": 2,
+                    "price": 99.59,
+                    "name": "some other name"
+                },
+                {
+                    "product_id": 3,
+                    "price": 0.0,
+                    "name": "somename"
+                }
+            ]
+        };
+        this.cart = new rxjs__WEBPACK_IMPORTED_MODULE_4__["BehaviorSubject"](this.tempcart);
     }
     AuthenticationService.prototype.register = function (username, password) {
         var _this = this;
@@ -299,14 +333,30 @@ var AuthenticationService = /** @class */ (function () {
     AuthenticationService.prototype.login = function (username, password) {
         var _this = this;
         var csrf = this.cookie.getCookie('csrftoken');
-        console.log(csrf, 'csrf token');
         var csrfheader = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'X-CSRFToken': csrf });
         this.http.post("https://evening-taiga-61292.herokuapp.com/api/login", { "username": username, "password": password }, { headers: csrfheader }).
             subscribe(function () { return _this.get_user(); });
     };
     AuthenticationService.prototype.logout = function () {
         var _this = this;
-        this.http.get("https://evening-taiga-61292.herokuapp.com/api/logout").subscribe(function () { return _this.get_user(); });
+        this.http.get("https://evening-taiga-61292.herokuapp.com/api/logout")
+            .subscribe(function () { return _this.get_user(); });
+    };
+    //add product to the cart in session
+    AuthenticationService.prototype.updateCart = function (productid) {
+        var _this = this;
+        var formdata = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]().set('product_id', productid);
+        this.http.post("https://evening-taiga-61292.herokuapp.com/cart/", formdata)
+            .subscribe(function (data) {
+            console.log(data);
+            _this.refreshCart();
+        });
+    };
+    // get or create a shopping cart
+    AuthenticationService.prototype.refreshCart = function () {
+        var _this = this;
+        this.http.get("https://evening-taiga-61292.herokuapp.com/getCart/")
+            .subscribe(function (data) { return _this.cart.next(data); });
     };
     AuthenticationService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -445,6 +495,67 @@ var BillingComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_get_images_service__WEBPACK_IMPORTED_MODULE_2__["GetImagesService"]])
     ], BillingComponent);
     return BillingComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/checkout/checkout.component.css":
+/*!*************************************************!*\
+  !*** ./src/app/checkout/checkout.component.css ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjaGVja291dC9jaGVja291dC5jb21wb25lbnQuY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/checkout/checkout.component.html":
+/*!**************************************************!*\
+  !*** ./src/app/checkout/checkout.component.html ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<table class=\"table\">\n    <thead>\n      <tr>\n        <th scope=\"col\">#</th>\n        <th scope=\"col\">Product</th>\n        <th scope=\"col\">Price</th>\n        <th scope=\"col\">Availability</th>\n      </tr>\n    </thead>\n    <tbody>\n\n        <tr *ngFor=\" let product of cart.products; let i = index;\">        \n            <th scope=\"row\">{{i}}</th>\n            <td>{{product.name}} </td>\n            <td>{{product.price}}</td>\n            <td>infinite</td>\n          </tr>\n    </tbody>\n  </table>\n\n  <button class = \"btn btn-primary\">proceed to payment</button>"
+
+/***/ }),
+
+/***/ "./src/app/checkout/checkout.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/checkout/checkout.component.ts ***!
+  \************************************************/
+/*! exports provided: CheckoutComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckoutComponent", function() { return CheckoutComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../authentication.service */ "./src/app/authentication.service.ts");
+
+
+
+var CheckoutComponent = /** @class */ (function () {
+    function CheckoutComponent(auth) {
+        this.auth = auth;
+    }
+    CheckoutComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.auth.cart.subscribe(function (data) { return _this.cart = data; });
+    };
+    CheckoutComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-checkout',
+            template: __webpack_require__(/*! ./checkout.component.html */ "./src/app/checkout/checkout.component.html"),
+            styles: [__webpack_require__(/*! ./checkout.component.css */ "./src/app/checkout/checkout.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"]])
+    ], CheckoutComponent);
+    return CheckoutComponent;
 }());
 
 
@@ -674,6 +785,7 @@ var GetImagesService = /** @class */ (function () {
     function GetImagesService(http) {
         this.http = http;
     }
+    //public baseURL = document.URL.split('/').splice(0,3).join('/') + '/' 
     GetImagesService.prototype.getImages = function () {
         return this.http.get("https://firestore.googleapis.com/v1/projects/ebrusproducts/databases/(default)/documents/images").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (value) {
             var fixedobject = [];
@@ -729,7 +841,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n  <a class=\"navbar-brand\" routerLink=\"/home\" routerLinkActive=\"active\">home</a>\n  <button class=\"navbar-toggler \" (click)=displayNav() type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n\n  <div class=\"collapse navbar-collapse \"[class.show]= \"navShow\" id=\"navbarSupportedContent\">\n    <ul class=\"navbar-nav mr-auto\">\n       <li class=\"nav-item\">\n        \n        <a class=\"nav-link\" routerLink=\"/products\" routerLinkActive=\"active\">products</a>\n      </li>\n      <li class=\"nav-item dropdown \">\n        <a (click)=\"dropdown()\" class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" >\n          Product categories\n        </a>\n        <div  [class.show]=\"show\" class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\" >\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/foodlist\">Food</a>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/clothinglist\">Clothing</a>\n          <div class=\"dropdown-divider\"></div>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/specialorders\">Special orders</a>\n        </div>\n      </li>\n      <li  class=\"nav-item\">\n        <a class=\"nav-link disabled\" href=\"#\" tabindex=\"-1\" aria-disabled=\"true\"></a>\n      </li>\n      <li class=\"nav-item\">\n        \n          <a style = \"color: green\" class=\"nav-link\" routerLink=\"/donate\" routerLinkActive=\"active\">Donate</a>\n        </li>\n        \n        <li class=\"nav-item\" *ngIf = \"!user; else elseBlock\">\n        \n            <a  class=\"nav-link\" routerLink=\"/register\" routerLinkActive=\"active\">Register</a>\n        </li>\n        <ng-template #elseBlock>\n            <li class=\"nav-item dropdown \">\n                <a (click)=\"profileClick()\" class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" >\n                  {{user.name}}\n                </a>\n                <div  [class.show]=\"profileShow\" class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\" >\n                  <a  class=\"dropdown-item\" routerLink=\"/profile\">Profile</a>                  \n                  <div class=\"dropdown-divider\"></div>\n                  <a  class=\"dropdown-item\" (click)=\"logout()\">Logout</a>\n                </div>\n              </li>\n        </ng-template>\n\n    </ul>\n    <form [formGroup] = \"searchForm\" (ngSubmit)=\"onSubmit()\" class=\"form-inline my-2 my-lg-0\">\n      <input formControlName = \"query\" class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n      <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n    </form>\n  </div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n  <a class=\"navbar-brand\" routerLink=\"/home\" routerLinkActive=\"active\">home</a>\n  <button class=\"navbar-toggler \" (click)=displayNav() type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n\n  <div class=\"collapse navbar-collapse \"[class.show]= \"navShow\" id=\"navbarSupportedContent\">\n    <ul class=\"navbar-nav mr-auto\">\n       <li class=\"nav-item\">\n        \n        <a class=\"nav-link\" routerLink=\"/products\" routerLinkActive=\"active\">products</a>\n      </li>\n      <li class=\"nav-item dropdown \">\n        <a (click)=\"dropdown()\" class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" >\n          Product categories\n        </a>\n        <div  [class.show]=\"show\" class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\" >\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/foodlist\">Food</a>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/clothinglist\">Clothing</a>\n          <div class=\"dropdown-divider\"></div>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/specialorders\">Special orders</a>\n        </div>\n      </li>\n      <li  class=\"nav-item\">\n        <a class=\"nav-link disabled\" href=\"#\" tabindex=\"-1\" aria-disabled=\"true\"></a>\n      </li>\n      <li class=\"nav-item\">\n        \n          <a style = \"color: green\" class=\"nav-link\" routerLink=\"/donate\" routerLinkActive=\"active\">Donate</a>\n        </li>\n        \n        <li class=\"nav-item\" *ngIf = \"!user; else elseBlock\">\n        \n            <a  class=\"nav-link\" routerLink=\"/register\" routerLinkActive=\"active\">Register</a>\n        </li>\n        <li class=\"nav-item\">\n        \n          <a style = \"color: green\" class=\"nav-link\" routerLink=\"/checkout\" routerLinkActive=\"active\"><i class=\"fas fa-shopping-cart\"></i>{{cart.products.length}}</a>\n        </li>\n        <ng-template #elseBlock>\n            <li class=\"nav-item dropdown \">\n                <a (click)=\"profileClick()\" class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" >\n                  {{user.name}}\n                </a>\n                <div  [class.show]=\"profileShow\" class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\" >\n                  <a  class=\"dropdown-item\" routerLink=\"/profile\">Profile</a>                  \n                  <div class=\"dropdown-divider\"></div>\n                  <a  class=\"dropdown-item\" (click)=\"logout()\">Logout</a>\n                </div>\n              </li>\n        </ng-template>\n\n    </ul>\n    <form [formGroup] = \"searchForm\" (ngSubmit)=\"onSubmit()\" class=\"form-inline my-2 my-lg-0\">\n      <input formControlName = \"query\" class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n      <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n    </form>\n  </div>\n</nav>"
 
 /***/ }),
 
@@ -754,7 +866,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent(router, auth) {
+    function HeaderComponent(activatedroute, router, auth) {
+        this.activatedroute = activatedroute;
         this.router = router;
         this.auth = auth;
         this.show = false;
@@ -780,6 +893,8 @@ var HeaderComponent = /** @class */ (function () {
     };
     HeaderComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.auth.cart.subscribe(function (data) { return _this.cart = data; });
+        this.activatedroute.url.subscribe(function (data) { return console.log(data, 'subscribed to route'); });
         this.auth.get_user();
         this.auth.user.subscribe(function (data) { return _this.user = data; });
         this.searchForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({ 'query': new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required) });
@@ -792,7 +907,8 @@ var HeaderComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./header.component.html */ "./src/app/header/header.component.html"),
             styles: [__webpack_require__(/*! ./header.component.css */ "./src/app/header/header.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
             _authentication_service__WEBPACK_IMPORTED_MODULE_4__["AuthenticationService"]])
     ], HeaderComponent);
     return HeaderComponent;
@@ -1096,7 +1212,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form (ngSubmit)=\"onSubmit()\" [formGroup]=\"loginForm\">\n    <label>\n      Username:\n      <input type=\"text\" formControlName=\"userName\">\n    </label>\n    <label>\n        Password:\n        <input type=\"password\" formControlName=\"password\">\n      </label>    \n    <button type=\"submit\"> Login </button>\n  </form>"
+module.exports = "<form (ngSubmit)=\"onSubmit()\" [formGroup]=\"loginForm\">\n    <label>\n      Username:\n      <input type=\"text\" formControlName=\"userName\">\n    </label>\n    <label>\n        Password:\n        <input type=\"password\" formControlName=\"password\">\n      </label>    \n    <button type=\"submit\"> Login </button>\n  </form>\n\n  <form (ngSubmit)=\"submitCart()\" [formGroup]=\"cartForm\">\n    <label>\n      product id:\n      <input type=\"text\" formControlName=\"product_id\">\n    </label>    \n    <button type=\"submit\"> Login </button>\n  </form>\n"
 
 /***/ }),
 
@@ -1128,6 +1244,9 @@ var LoginComponent = /** @class */ (function () {
             userName: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required),
             password: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('')
         });
+        this.cartForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({
+            product_id: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required)
+        });
     }
     LoginComponent.prototype.onSubmit = function () {
         var password = this.loginForm.controls.password.value;
@@ -1135,6 +1254,12 @@ var LoginComponent = /** @class */ (function () {
         console.log(username, password);
         this.auth.login(username, password);
         this.router.navigate(['home']);
+    };
+    LoginComponent.prototype.submitCart = function () {
+        var product_id = this.cartForm.controls.product_id.value;
+        console.log(product_id, ' this is id from the form');
+        console.log(this.cartForm.value, 'whole form');
+        this.auth.updateCart(product_id);
     };
     LoginComponent.prototype.ngOnInit = function () {
     };
@@ -1171,7 +1296,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n\n\n  <div *ngIf = \"displayedImage\" class=\"row justify-content-center\">\n    <div class=\"col-sm-6 py-3\">\n      <img [src]=\"displayedImage\" style =\"height: 60vh\" class=\"img-fluid\" (click)=\"imgClick($event)\">\n    </div>\n  </div>\n  <div class=\"row\">\n\n    <div *ngFor=\"let item of product.image_set; index as i\" class=\"col-sm-3\">\n      <img [src]=\"product.image_set[i].url\" style=\"height: 12em\" [attr.data-index]=\"i\" (click)=\"imgClick($event)\">\n    </div>\n\n\n  </div>\n  <div class=\"row\">\n    <p>\n      {{product.productName}}<br>{{product.description}}\n    </p>\n\n    <table class=\"table\">\n      <thead>\n        <tr>\n          <th scope=\"col\">#</th>\n          <th scope=\"col\">Option</th>\n          <th scope=\"col\">Price</th>\n          <th scope=\"col\">Availability</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <th scope=\"row\">1</th>\n          <td>Mark</td>\n          <td>9.99$</td>\n          <td>5</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">2</th>\n          <td>Jacob</td>\n          <td>9.99$</td>\n          <td>10</td>\n        </tr>\n        <tr>\n          <th scope=\"row\">3</th>\n          <td>Larry</td>\n          <td>9.99$</td>\n          <td>12</td>\n        </tr>\n      </tbody>\n    </table>\n  </div>\n</div>"
+module.exports = "<div class=\"container\">\n\n\n  <div *ngIf=\"displayedImage\" class=\"row justify-content-center\">\n    <div class=\"col-sm-6 py-3\">\n      <img [src]=\"displayedImage\" style=\"height: 60vh\" class=\"img-fluid\" (click)=\"imgClick($event)\">\n    </div>\n  </div>\n  <div class=\"row\">\n\n    <div *ngFor=\"let item of product.image_set; index as i\" class=\"col-sm-3\">\n      <img [src]=\"product.image_set[i].url\" style=\"height: 12em\" [attr.data-index]=\"i\" (click)=\"imgClick($event)\">\n    </div>\n\n\n  </div>\n  <div class=\"row\">\n    <p>\n      {{product.productName}}<br>{{product.description}}\n    </p>\n    <div *ngIf=\"productInCart(); else elseBlock\">\n\n      <p>in cart\n        <button (click)=\"updateCart()\" class=\"btn btn-danger\">\n          remove from Cart\n        </button>\n      </p>\n    </div>\n\n    <ng-template #elseBlock>\n      <button (click)=\"updateCart()\" class=\"btn btn-primary\">Add to Cart</button>\n    </ng-template>\n    \n  </div>\n</div>"
 
 /***/ }),
 
@@ -1189,24 +1314,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _get_images_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../get-images.service */ "./src/app/get-images.service.ts");
+/* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../authentication.service */ "./src/app/authentication.service.ts");
+
 
 
 
 
 var ProductDetailComponent = /** @class */ (function () {
-    function ProductDetailComponent(route, service) {
+    function ProductDetailComponent(route, service, auth) {
         this.route = route;
         this.service = service;
+        this.auth = auth;
+        this.pk = this.route.snapshot.paramMap.get('pk');
     }
     ProductDetailComponent.prototype.imgClick = function (event) {
-        console.log(event.target.dataset.index);
         var index = event.target.dataset.index;
         this.displayedImage = this.product.image_set[index].url;
     };
+    ProductDetailComponent.prototype.updateCart = function () {
+        this.auth.updateCart(this.pk);
+    };
+    ProductDetailComponent.prototype.productInCart = function () {
+        var products = this.cart.products.map(function (value) { return value.product_id; });
+        var productkey = this.pk;
+        return products.indexOf(+productkey) > -1 ? true : false;
+    };
     ProductDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        var pk = this.route.snapshot.paramMap.get('pk');
-        this.service.getProductDetail(pk).subscribe(function (data) { return _this.product = data; });
+        this.auth.cart.subscribe(function (data) { return _this.cart = data; });
+        this.service.getProductDetail(this.pk).subscribe(function (data) { return _this.product = data; });
     };
     ProductDetailComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1214,7 +1350,9 @@ var ProductDetailComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./product-detail.component.html */ "./src/app/product-detail/product-detail.component.html"),
             styles: [__webpack_require__(/*! ./product-detail.component.css */ "./src/app/product-detail/product-detail.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _get_images_service__WEBPACK_IMPORTED_MODULE_3__["GetImagesService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
+            _get_images_service__WEBPACK_IMPORTED_MODULE_3__["GetImagesService"],
+            _authentication_service__WEBPACK_IMPORTED_MODULE_4__["AuthenticationService"]])
     ], ProductDetailComponent);
     return ProductDetailComponent;
 }());
@@ -1241,7 +1379,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n  <div class=\"row\" *ngFor=\"let value of images; index as i\" >\n    <div class=\"col-sm-4\">\n      <img [src]=\"value.image_set[0]? value.image_set[0]['url']: ''\" style=\"width:100%;margin-bottom:1em;\" [attr.data-index]=\"value.id\" (click)=\"navigate($event)\">\n      <div style=\"height: 100%\"></div>\n    </div>\n    <div class=\"col-sm-8\">\n      <p> {{value.productName}}</p>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"container-fluid\">\n  <div class=\"row\" *ngFor=\"let value of products; index as i\">\n\n    <div class=\"col-sm-4\">\n      <img [src]=\"value.image_set[0]? value.image_set[0]['url']: ''\" style=\"width:100%;margin-bottom:1em;\"\n        [attr.data-index]=\"value.id\" (click)=\"navigate($event)\">\n      <div style=\"height: 100%\"></div>\n    </div>\n    <div class=\"col-sm-8\">\n      <div class=\"row-items-start \">\n        <p> {{value.productName}}</p>\n      </div>\n      <div style=\"height: 60%\"></div>\n      <div class=\"row align-items-end\">\n        <div *ngIf=\"productInCart(value.id); else elseBlock\">\n\n          <p>in cart \n            <button (click)=\"updateCart(value.id)\" class=\"btn btn-danger\">\n              remove from Cart\n            </button>\n          </p>          \n        </div>\n\n        <ng-template #elseBlock>\n          <button (click)=\"updateCart(value.id)\" class=\"btn btn-primary\">Add to Cart</button>\n        </ng-template>\n      </div>\n\n\n    </div>\n  </div>"
 
 /***/ }),
 
@@ -1259,27 +1397,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _get_images_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../get-images.service */ "./src/app/get-images.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../authentication.service */ "./src/app/authentication.service.ts");
+
 
 
 
 
 var ProductListComponent = /** @class */ (function () {
-    function ProductListComponent(getimages, activeroute, router) {
+    function ProductListComponent(getimages, activeroute, router, auth) {
         this.getimages = getimages;
         this.activeroute = activeroute;
         this.router = router;
+        this.auth = auth;
     }
+    ProductListComponent.prototype.productInCart = function (id) {
+        var products = this.cart.products.map(function (value) { return value.product_id; });
+        return products.indexOf(id) > -1 ? true : false;
+    };
+    ProductListComponent.prototype.updateCart = function (id) {
+        this.auth.updateCart(id);
+    };
     ProductListComponent.prototype.loadresults = function (query) {
         var _this = this;
         this.getimages.searchProducts(this.activeroute.snapshot.queryParams.search).subscribe(function (data) {
-            _this.images = data;
+            _this.products = data;
         });
     };
     ProductListComponent.prototype.loadallresults = function () {
         var _this = this;
         this.getimages.getProducts()
             .subscribe(function (data) {
-            _this.images = data;
+            _this.products = data;
         });
     };
     ProductListComponent.prototype.navigate = function (event) {
@@ -1288,6 +1436,7 @@ var ProductListComponent = /** @class */ (function () {
     };
     ProductListComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.auth.cart.subscribe(function (data) { return _this.cart = data; });
         this.activeroute.queryParams.subscribe(function (queryParams) {
             if (queryParams.search) {
                 _this.loadresults(queryParams.search);
@@ -1305,7 +1454,10 @@ var ProductListComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./product-list.component.html */ "./src/app/product-list/product-list.component.html"),
             styles: [__webpack_require__(/*! ./product-list.component.css */ "./src/app/product-list/product-list.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_get_images_service__WEBPACK_IMPORTED_MODULE_2__["GetImagesService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_get_images_service__WEBPACK_IMPORTED_MODULE_2__["GetImagesService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _authentication_service__WEBPACK_IMPORTED_MODULE_4__["AuthenticationService"]])
     ], ProductListComponent);
     return ProductListComponent;
 }());

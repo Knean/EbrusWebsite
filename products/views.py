@@ -21,7 +21,7 @@ def product_search(request, query, format = None):
         serializer = ProductsSerializer(products, many = True)
         return Response(serializer.data)
 
-@api_view(['GET','POST'])
+@api_view(['GET'])
 def product_list(request, format = None):
     if request.method == 'GET':        
         products = Product.objects.all()
@@ -35,7 +35,7 @@ def product_list(request, format = None):
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET','POST','DELETE'])
+@api_view(['GET'])
 def product_detail(request, pk, format = None):
     
     try:
@@ -57,7 +57,7 @@ def product_detail(request, pk, format = None):
     elif request.method == 'DELETE':
         product.delete()
         return HttpResponse(status = status.HTTP_204_NO_CONTENT)
-    
+    #use forms for this
 @api_view(['POST'])
 def create_charge(request):
     stripe.api_key = settings.STRIPE_TEST_API_KEY
@@ -73,7 +73,7 @@ def create_charge(request):
         return JsonResponse({"success":True})
     except:
         return JsonResponse({"success":False})
-
+#use forms for this
 @api_view(['POST'])
 def create_user(request):
     username = request.data.get('username')
@@ -87,7 +87,7 @@ def get_user(request):
     
     print(request.user)
     return JsonResponse({"name": request.user.username, 'age':'18'})
-
+#use forms for this
 @api_view(['POST'])
 @csrf_exempt
 def login_user(request):
