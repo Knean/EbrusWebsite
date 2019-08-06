@@ -16,7 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from .views import home_page
-from cart.views import updatecart, get_cart
+from cart.views import updatecart, get_cart, clear_cart
+from addresses.views import getAddress, createAddress
+from orders.views import order_detail, create_order
 
 urlpatterns = [
     path('admin/', admin.site.urls),    
@@ -24,5 +26,10 @@ urlpatterns = [
     path('api/',include('products.urls')),
     path('cart/',updatecart),
     path('getCart/',get_cart),
+    path('getAddress/',getAddress),
+    path('createAddress/',createAddress),
+    path('order_detail/<int:pk>',order_detail),
+    path('create_order',create_order),
+    path('clear_cart',clear_cart),
     re_path(r'^(?P<remainder>.*)$', home_page.as_view()),
 ]

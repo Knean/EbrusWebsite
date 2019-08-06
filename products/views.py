@@ -8,7 +8,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from products.models import Product
-from products.serializers import ProductsSerializer
+from products.serializers import ProductsSerializer, UserSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -60,6 +60,7 @@ def product_detail(request, pk, format = None):
     #use forms for this
 @api_view(['POST'])
 def create_charge(request):
+    #add variable ammount
     stripe.api_key = settings.STRIPE_TEST_API_KEY
     try:
         charge = stripe.Charge.create(
@@ -84,9 +85,10 @@ def create_user(request):
 
 @api_view(['GET'])
 def get_user(request):
-    
+    User = request.user
     print(request.user)
-    return JsonResponse({"name": request.user.username, 'age':'18'})
+    return(Response(UserSerializer(User).data))
+    #return JsonResponse({"name": request.user.username, 'age':'18'})
 #use forms for this
 @api_view(['POST'])
 @csrf_exempt

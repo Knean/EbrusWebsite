@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from .forms import CartForm
+from .forms import ProductForm
 from django.views.decorators.csrf import csrf_exempt
 from .models import Cart
 from  products.models import Product
@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 @csrf_exempt
 def updatecart(request):
     if request.method == "POST":
-        form = CartForm(request.POST)
+        form = ProductForm(request.POST)
         if form.is_valid():
             cart_obj, new_obj = Cart.objects.new_or_get(request)
             BoughtProductID = form.cleaned_data.get('product_id')            
@@ -35,5 +35,19 @@ def updatecart(request):
 def get_cart(request, format = None):
     if request.method == 'GET':        
         cart_obj, new_obj = Cart.objects.new_or_get(request)
+        serializer = CartSerializer(cart_obj, many = False)
+        return Response(serializer.data)
+@api_view(['GET'])
+def clear_cart(request,format = None):
+    
+    cart_obj, new_obj = Cart.objects.new_or_get(request)
+    if new_obj:
+        print('new cart')
+        serializer = CartSerializer(cart_obj, many = False)
+        return Response(serializer.data)
+    else:
+        print('old cart')
+        cart_obj.products.clear()
+        cart_obj.save()
         serializer = CartSerializer(cart_obj, many = False)
         return Response(serializer.data)

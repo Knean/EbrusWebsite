@@ -46,6 +46,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _register_register_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./register/register.component */ "./src/app/register/register.component.ts");
 /* harmony import */ var _profile_profile_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./profile/profile.component */ "./src/app/profile/profile.component.ts");
 /* harmony import */ var _checkout_checkout_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./checkout/checkout.component */ "./src/app/checkout/checkout.component.ts");
+/* harmony import */ var _billing_form_billing_form_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./billing-form/billing-form.component */ "./src/app/billing-form/billing-form.component.ts");
+/* harmony import */ var _payment_parent_payment_parent_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./payment-parent/payment-parent.component */ "./src/app/payment-parent/payment-parent.component.ts");
+/* harmony import */ var _order_detail_order_detail_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./order-detail/order-detail.component */ "./src/app/order-detail/order-detail.component.ts");
+
+
+
 
 
 
@@ -71,6 +77,9 @@ var routes = [
     { path: 'register', component: _register_register_component__WEBPACK_IMPORTED_MODULE_10__["RegisterComponent"] },
     { path: 'profile', component: _profile_profile_component__WEBPACK_IMPORTED_MODULE_11__["ProfileComponent"] },
     { path: 'checkout', component: _checkout_checkout_component__WEBPACK_IMPORTED_MODULE_12__["CheckoutComponent"] },
+    { path: 'address', component: _billing_form_billing_form_component__WEBPACK_IMPORTED_MODULE_13__["BillingFormComponent"] },
+    { path: 'billing', component: _payment_parent_payment_parent_component__WEBPACK_IMPORTED_MODULE_14__["PaymentParentComponent"] },
+    { path: 'order', component: _order_detail_order_detail_component__WEBPACK_IMPORTED_MODULE_15__["OrderDetailComponent"] },
     { path: "**", redirectTo: "home" }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -196,6 +205,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
 /* harmony import */ var _profile_profile_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./profile/profile.component */ "./src/app/profile/profile.component.ts");
 /* harmony import */ var _checkout_checkout_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./checkout/checkout.component */ "./src/app/checkout/checkout.component.ts");
+/* harmony import */ var _billing_form_billing_form_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./billing-form/billing-form.component */ "./src/app/billing-form/billing-form.component.ts");
+/* harmony import */ var _payment_parent_payment_parent_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./payment-parent/payment-parent.component */ "./src/app/payment-parent/payment-parent.component.ts");
+/* harmony import */ var _thankyoupage_thankyoupage_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./thankyoupage/thankyoupage.component */ "./src/app/thankyoupage/thankyoupage.component.ts");
+/* harmony import */ var _order_detail_order_detail_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./order-detail/order-detail.component */ "./src/app/order-detail/order-detail.component.ts");
+
+
+
+
 
 
 
@@ -241,7 +258,11 @@ var AppModule = /** @class */ (function () {
                 _register_register_component__WEBPACK_IMPORTED_MODULE_19__["RegisterComponent"],
                 _login_login_component__WEBPACK_IMPORTED_MODULE_20__["LoginComponent"],
                 _profile_profile_component__WEBPACK_IMPORTED_MODULE_21__["ProfileComponent"],
-                _checkout_checkout_component__WEBPACK_IMPORTED_MODULE_22__["CheckoutComponent"]
+                _checkout_checkout_component__WEBPACK_IMPORTED_MODULE_22__["CheckoutComponent"],
+                _billing_form_billing_form_component__WEBPACK_IMPORTED_MODULE_23__["BillingFormComponent"],
+                _payment_parent_payment_parent_component__WEBPACK_IMPORTED_MODULE_24__["PaymentParentComponent"],
+                _thankyoupage_thankyoupage_component__WEBPACK_IMPORTED_MODULE_25__["ThankyoupageComponent"],
+                _order_detail_order_detail_component__WEBPACK_IMPORTED_MODULE_26__["OrderDetailComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -286,8 +307,6 @@ var AuthenticationService = /** @class */ (function () {
     function AuthenticationService(http, cookie) {
         this.http = http;
         this.cookie = cookie;
-        this.user_object = { name: 'pleasework', age: '28' };
-        this.user = new rxjs__WEBPACK_IMPORTED_MODULE_4__["BehaviorSubject"](this.user_object);
         this.tempcart = {
             "id": 26,
             "total": "5.55",
@@ -309,11 +328,14 @@ var AuthenticationService = /** @class */ (function () {
                 }
             ]
         };
+        this.user_object_noaddress = { username: 'pleasework', age: '28', address: null };
+        this.user_object = { username: 'pleasework', age: '28', address: { address_line_1: 'lskdjfsldkjf' } };
+        this.user = new rxjs__WEBPACK_IMPORTED_MODULE_4__["BehaviorSubject"](this.user_object_noaddress);
         this.cart = new rxjs__WEBPACK_IMPORTED_MODULE_4__["BehaviorSubject"](this.tempcart);
     }
     AuthenticationService.prototype.register = function (username, password) {
         var _this = this;
-        this.http.post("https://evening-taiga-61292.herokuapp.com/api/register", { "username": username, "password": password })
+        this.http.post("http://127.0.0.1:8000/api/register", { "username": username, "password": password })
             .subscribe(function () {
             _this.login(username, password);
             _this.get_user();
@@ -321,12 +343,12 @@ var AuthenticationService = /** @class */ (function () {
     };
     AuthenticationService.prototype.get_user = function () {
         var _this = this;
-        this.http.get("https://evening-taiga-61292.herokuapp.com/api/get_user").subscribe(function (data) {
-            if (data.name) {
+        this.http.get("http://127.0.0.1:8000/api/get_user").subscribe(function (data) {
+            if (data.username) {
                 _this.user.next(data);
             }
             else {
-                _this.user.next('');
+                _this.user.next(null);
             }
         });
     };
@@ -334,19 +356,19 @@ var AuthenticationService = /** @class */ (function () {
         var _this = this;
         var csrf = this.cookie.getCookie('csrftoken');
         var csrfheader = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'X-CSRFToken': csrf });
-        this.http.post("https://evening-taiga-61292.herokuapp.com/api/login", { "username": username, "password": password }, { headers: csrfheader }).
+        this.http.post("http://127.0.0.1:8000/api/login", { "username": username, "password": password }, { headers: csrfheader }).
             subscribe(function () { return _this.get_user(); });
     };
     AuthenticationService.prototype.logout = function () {
         var _this = this;
-        this.http.get("https://evening-taiga-61292.herokuapp.com/api/logout")
-            .subscribe(function () { return _this.get_user(); });
+        this.http.get("http://127.0.0.1:8000/api/logout")
+            .subscribe(function () { _this.get_user(); _this.refreshCart(); });
     };
     //add product to the cart in session
     AuthenticationService.prototype.updateCart = function (productid) {
         var _this = this;
         var formdata = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]().set('product_id', productid);
-        this.http.post("https://evening-taiga-61292.herokuapp.com/cart/", formdata)
+        this.http.post("http://127.0.0.1:8000/cart/", formdata)
             .subscribe(function (data) {
             console.log(data);
             _this.refreshCart();
@@ -355,8 +377,42 @@ var AuthenticationService = /** @class */ (function () {
     // get or create a shopping cart
     AuthenticationService.prototype.refreshCart = function () {
         var _this = this;
-        this.http.get("https://evening-taiga-61292.herokuapp.com/getCart/")
+        this.http.get("http://127.0.0.1:8000/getCart/")
             .subscribe(function (data) { return _this.cart.next(data); });
+    };
+    AuthenticationService.prototype.createAddress = function (address_line_1, address_line_2) {
+        var csrf = this.cookie.getCookie('csrftoken');
+        var csrfheader = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'X-CSRFToken': csrf });
+        var formdata = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]().set('address_line_1', address_line_1).set('address_line_2', address_line_2);
+        return this.http.post("http://127.0.0.1:8000/createAddress/", formdata, { headers: csrfheader });
+    };
+    AuthenticationService.prototype.getAddress = function () {
+        return this.http.get("http://127.0.0.1:8000/getAddress/");
+    };
+    AuthenticationService.prototype.createOrder = function (token, address, cart) {
+        var csrf = this.cookie.getCookie('csrftoken');
+        var csrfheader = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'X-CSRFToken': csrf });
+        var user;
+        var userSubscription = this.user.subscribe(function (userdata) { return user = userdata; });
+        var formdata = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]();
+        cart.products.forEach(function (value) {
+            var product_id = value.product_id.toString();
+            formdata = formdata.append('products', product_id);
+        });
+        formdata = formdata.set('address', address.id.toString());
+        formdata = formdata.set('total', cart.total.toString());
+        formdata = formdata.set('stripe_token', token);
+        /*     .append('products', '1').append('products', '2')
+            .set('user', '1')
+            .set('address', '21')
+            .set('total', '9.99')
+            .set('stripe_token', token) */
+        userSubscription.unsubscribe();
+        return this.http.post("http://127.0.0.1:8000/create_order", formdata, { headers: csrfheader });
+    };
+    AuthenticationService.prototype.clearCart = function () {
+        var _this = this;
+        return this.http.get("http://127.0.0.1:8000/clear_cart").subscribe(function () { return _this.refreshCart(); });
     };
     AuthenticationService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -365,6 +421,91 @@ var AuthenticationService = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], _get_cookies_service__WEBPACK_IMPORTED_MODULE_3__["GetCookiesService"]])
     ], AuthenticationService);
     return AuthenticationService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/billing-form/billing-form.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/billing-form/billing-form.component.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJiaWxsaW5nLWZvcm0vYmlsbGluZy1mb3JtLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/billing-form/billing-form.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/billing-form/billing-form.component.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n<p>We don't have your address</p>\n<form class = \"form-group\" (ngSubmit)=\"onSubmit()\" [formGroup]=\"addressForm\">\n  <label>\n    address_line_1:\n    <input type=\"text\" class=\"form-control\" formControlName=\"address_line_1\">\n  </label>\n  <label>\n    address_line_2:\n      <input type=\"password\" class=\"form-control\" formControlName=\"address_line_2\">\n    </label>    \n    <!-- <button class = \"btn btn-primary\" type=\"submit\"> proceed </button> -->\n</form>\n\n\n"
+
+/***/ }),
+
+/***/ "./src/app/billing-form/billing-form.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/billing-form/billing-form.component.ts ***!
+  \********************************************************/
+/*! exports provided: BillingFormComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BillingFormComponent", function() { return BillingFormComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../authentication.service */ "./src/app/authentication.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
+
+
+
+
+var BillingFormComponent = /** @class */ (function () {
+    function BillingFormComponent(auth, router) {
+        this.auth = auth;
+        this.router = router;
+        this.addressEmitter = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.addressForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormGroup"]({
+            address_line_1: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormControl"]('', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required),
+            address_line_2: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormControl"]('')
+        });
+    }
+    BillingFormComponent.prototype.onSubmit = function () {
+        var _this = this;
+        var address_line_1 = this.addressForm.controls.address_line_1.value;
+        var address_line_2 = this.addressForm.controls.address_line_2.value;
+        this.auth.createAddress(address_line_1, address_line_2).subscribe(function (data) {
+            _this.addressEmitter.emit(data);
+            //this.router.navigate(['billing'])
+        });
+    };
+    BillingFormComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.auth.user.subscribe(function (data) { return _this.user = data; });
+        console.log(this.user);
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Object)
+    ], BillingFormComponent.prototype, "addressEmitter", void 0);
+    BillingFormComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-billing-form',
+            template: __webpack_require__(/*! ./billing-form.component.html */ "./src/app/billing-form/billing-form.component.html"),
+            styles: [__webpack_require__(/*! ./billing-form.component.css */ "./src/app/billing-form/billing-form.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])
+    ], BillingFormComponent);
+    return BillingFormComponent;
 }());
 
 
@@ -389,7 +530,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <div class = \"form-group\">\n\n  <label for = \"card-element\"> credit or debit card</label>\n  <div id = \"card-element\" class = \"form-control\"></div>\n  <div id=\"card-errors\" role=\"alert\"></div>\n  <button>Submit Payment</button>\n</div> -->\n\n<div class=\"container-fluid\"  >\n  <div class=\"row\">\n    <div class=\"col\">\n      <p> Buy Ebru a new frying pan and a better developer</p>\n    </div>\n\n\n  </div>\n  <div class=\"row\">\n    <div class=\"col\">\n      <div class = \"form-group\"(submit)=\"handleForm($event)\">\n\n        <label for=\"card-element\"> credit or debit card</label>\n        <div id=\"card-element\"class = \"form-control\"></div>\n        <div id=\"card-errors\" role=\"alert\"></div>\n        <button (click)=\"handleForm($event)\" class = \"btn btn-primary\">Donate {{amount/100 | number: '0.2'}} EUR</button>\n      </div>\n\n    </div>\n\n\n  </div>\n</div>"
+module.exports = "<!-- <div class = \"form-group\">\n\n  <label for = \"card-element\"> credit or debit card</label>\n  <div id = \"card-element\" class = \"form-control\"></div>\n  <div id=\"card-errors\" role=\"alert\"></div>\n  <button>Submit Payment</button>\n</div> -->\n\n<!-- <div class=\"container-fluid\"  >\n  <div class=\"row\">\n    <div class=\"col\">\n      <p> Buy Ebru a new frying pan and a better developer</p>\n    </div>\n\n\n  </div>\n  <div class=\"row\">\n    <div class=\"col\"> -->\n      <div class = \"form-group\"(submit)=\"handleForm($event)\"id=\"stripeForm\">\n\n        <label for=\"card-element\"> credit or debit card</label>\n        <div id=\"card-element\"class = \"form-control\"></div>\n        <div id=\"card-errors\" role=\"alert\"></div>\n        <button (click)=\"handleForm($event)\" class = \"btn btn-primary\">Pay {{amount/100 | number: '0.2'}} EUR</button>\n      </div>\n<!-- \n    </div>\n\n\n  </div>\n</div> -->"
 
 /***/ }),
 
@@ -412,7 +553,7 @@ __webpack_require__.r(__webpack_exports__);
 var BillingComponent = /** @class */ (function () {
     function BillingComponent(httpclient) {
         this.httpclient = httpclient;
-        this.amount = 500;
+        this.stripeToken = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.donated = false;
         this.style = {
             base: {
@@ -437,25 +578,25 @@ var BillingComponent = /** @class */ (function () {
             return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        e.preventDefault();
                         mario = this;
                         return [4 /*yield*/, this.stripe.createToken(this.card).then(function (result) {
-                                var _this = this;
                                 if (result.error) {
+                                    console.log('we got an error');
                                     // Inform the customer that there was an error.
                                     var errorElement = document.getElementById('card-errors');
                                     errorElement.textContent = result.error.message;
                                 }
                                 else {
-                                    mario.httpclient.sendToken(result.token).subscribe(function (data) {
-                                        console.log(data);
-                                        if (data.success) {
-                                            _this.donated = true;
-                                        }
-                                    });
-                                    // Send the token to your server.
-                                    console.log(result.token, 'result!');
-                                    /* stripeTokenHandler(result.token); */
+                                    mario.stripeToken.emit(result.token);
+                                    /*
+                                    console.log('no errors')
+                                    mario.httpclient.sendToken(result.token).subscribe((data: any) => {
+                                      console.log(data);
+                                      if (data.success) { console.log(data) }
+                                    })
+                            
+                                    
+                                    console.log(result.token, 'result!') */
                                 }
                             })];
                     case 1:
@@ -465,13 +606,16 @@ var BillingComponent = /** @class */ (function () {
             });
         });
     };
+    BillingComponent.prototype.submitWithoutClicking = function () {
+        this.handleForm(document.getElementById("stripeForm"));
+        //(<any>document.getElementById("stripeForm")).submit();
+        //(<any>document.getElementsByClassName("ElementsApp")[0]).submit()
+    };
     BillingComponent.prototype.ngOnInit = function () {
         this.stripe = Stripe('pk_test_yKgVirGOUgNa70uP1uYj45pU');
-        console.log('striiiiiiiipe', this.stripe);
         var elements = this.stripe.elements();
         this.card = elements.create('card', { style: this.style });
         this.card.mount('#card-element');
-        console.log("this is stripe");
         this.card.addEventListener('change', function (event) {
             var displayError = document.getElementById('card-errors');
             if (event.error) {
@@ -482,6 +626,14 @@ var BillingComponent = /** @class */ (function () {
             }
         });
     };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Number)
+    ], BillingComponent.prototype, "amount", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Object)
+    ], BillingComponent.prototype, "stripeToken", void 0);
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('card-element'),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Object)
@@ -519,7 +671,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<table class=\"table\">\n    <thead>\n      <tr>\n        <th scope=\"col\">#</th>\n        <th scope=\"col\">Product</th>\n        <th scope=\"col\">Price</th>\n        <th scope=\"col\">Availability</th>\n      </tr>\n    </thead>\n    <tbody>\n\n        <tr *ngFor=\" let product of cart.products; let i = index;\">        \n            <th scope=\"row\">{{i}}</th>\n            <td>{{product.name}} </td>\n            <td>{{product.price}}</td>\n            <td>infinite</td>\n          </tr>\n    </tbody>\n  </table>\n\n  <button class = \"btn btn-primary\">proceed to payment</button>"
+module.exports = "<table class=\"table\">\n    <thead>\n      <tr>\n        <th scope=\"col\">#</th>\n        <th scope=\"col\">Product</th>\n        <th scope=\"col\">Price</th>\n        <th scope=\"col\">Availability</th>\n      </tr>\n    </thead>\n    <tbody>\n\n        <tr *ngFor=\" let product of cart.products; let i = index;\">        \n            <th scope=\"row\">{{i}}</th>\n            <td>{{product.name}} </td>\n            <td>{{product.price}}</td>\n            <td>infinite</td>\n          </tr>\n    </tbody>\n  </table>\n\n  <button class = \"btn btn-primary\"(click)=\"proceed()\">proceed to payment</button>"
 
 /***/ }),
 
@@ -536,16 +688,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../authentication.service */ "./src/app/authentication.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
 
 
 
 var CheckoutComponent = /** @class */ (function () {
-    function CheckoutComponent(auth) {
+    function CheckoutComponent(auth, router) {
         this.auth = auth;
+        this.router = router;
     }
+    CheckoutComponent.prototype.proceed = function () {
+        /*     if (! this.user.address){
+              this.router.navigate(['address'])
+            }
+            else{
+              this.router.navigate(['billing'])
+            } */
+        this.router.navigate(['billing']);
+    };
     CheckoutComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.auth.cart.subscribe(function (data) { return _this.cart = data; });
+        this.auth.user.subscribe(function (data) { return _this.user = data; });
     };
     CheckoutComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -553,7 +718,8 @@ var CheckoutComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./checkout.component.html */ "./src/app/checkout/checkout.component.html"),
             styles: [__webpack_require__(/*! ./checkout.component.css */ "./src/app/checkout/checkout.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], CheckoutComponent);
     return CheckoutComponent;
 }());
@@ -841,7 +1007,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n  <a class=\"navbar-brand\" routerLink=\"/home\" routerLinkActive=\"active\">home</a>\n  <button class=\"navbar-toggler \" (click)=displayNav() type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n\n  <div class=\"collapse navbar-collapse \"[class.show]= \"navShow\" id=\"navbarSupportedContent\">\n    <ul class=\"navbar-nav mr-auto\">\n       <li class=\"nav-item\">\n        \n        <a class=\"nav-link\" routerLink=\"/products\" routerLinkActive=\"active\">products</a>\n      </li>\n      <li class=\"nav-item dropdown \">\n        <a (click)=\"dropdown()\" class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" >\n          Product categories\n        </a>\n        <div  [class.show]=\"show\" class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\" >\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/foodlist\">Food</a>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/clothinglist\">Clothing</a>\n          <div class=\"dropdown-divider\"></div>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/specialorders\">Special orders</a>\n        </div>\n      </li>\n      <li  class=\"nav-item\">\n        <a class=\"nav-link disabled\" href=\"#\" tabindex=\"-1\" aria-disabled=\"true\"></a>\n      </li>\n      <li class=\"nav-item\">\n        \n          <a style = \"color: green\" class=\"nav-link\" routerLink=\"/donate\" routerLinkActive=\"active\">Donate</a>\n        </li>\n        \n        <li class=\"nav-item\" *ngIf = \"!user; else elseBlock\">\n        \n            <a  class=\"nav-link\" routerLink=\"/register\" routerLinkActive=\"active\">Register</a>\n        </li>\n        <li class=\"nav-item\">\n        \n          <a style = \"color: green\" class=\"nav-link\" routerLink=\"/checkout\" routerLinkActive=\"active\"><i class=\"fas fa-shopping-cart\"></i>{{cart.products.length}}</a>\n        </li>\n        <ng-template #elseBlock>\n            <li class=\"nav-item dropdown \">\n                <a (click)=\"profileClick()\" class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" >\n                  {{user.name}}\n                </a>\n                <div  [class.show]=\"profileShow\" class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\" >\n                  <a  class=\"dropdown-item\" routerLink=\"/profile\">Profile</a>                  \n                  <div class=\"dropdown-divider\"></div>\n                  <a  class=\"dropdown-item\" (click)=\"logout()\">Logout</a>\n                </div>\n              </li>\n        </ng-template>\n\n    </ul>\n    <form [formGroup] = \"searchForm\" (ngSubmit)=\"onSubmit()\" class=\"form-inline my-2 my-lg-0\">\n      <input formControlName = \"query\" class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n      <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n    </form>\n  </div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n  <a class=\"navbar-brand\" routerLink=\"/home\" routerLinkActive=\"active\">home</a>\n  <button class=\"navbar-toggler \" (click)=displayNav() type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n\n  <div class=\"collapse navbar-collapse \"[class.show]= \"navShow\" id=\"navbarSupportedContent\">\n    <ul class=\"navbar-nav mr-auto\">\n       <li class=\"nav-item\">\n        \n        <a class=\"nav-link\" routerLink=\"/products\" routerLinkActive=\"active\">products</a>\n      </li>\n      <li class=\"nav-item dropdown \">\n        <a (click)=\"dropdown()\" class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" >\n          Product categories\n        </a>\n        <div  [class.show]=\"show\" class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\" >\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/foodlist\">Food</a>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/clothinglist\">Clothing</a>\n          <div class=\"dropdown-divider\"></div>\n          <a (click)=\"dropdown()\" class=\"dropdown-item\" routerLink=\"/specialorders\">Special orders</a>\n        </div>\n      </li>\n      <li  class=\"nav-item\">\n        <a class=\"nav-link disabled\" href=\"#\" tabindex=\"-1\" aria-disabled=\"true\"></a>\n      </li>\n      <li class=\"nav-item\">\n        \n          <a style = \"color: green\" class=\"nav-link\" routerLink=\"/donate\" routerLinkActive=\"active\">Donate</a>\n        </li>\n        \n        <li class=\"nav-item\" *ngIf = \"!user; else elseBlock\">\n        \n            <a  class=\"nav-link\" routerLink=\"/register\" routerLinkActive=\"active\">Register</a>\n        </li>\n        <li class=\"nav-item\">\n        \n          <a style = \"color: green\" class=\"nav-link\" routerLink=\"/checkout\" routerLinkActive=\"active\"><i class=\"fas fa-shopping-cart\"></i>{{cart.products.length}}</a>\n        </li>\n        <ng-template #elseBlock>\n            <li class=\"nav-item dropdown \">\n                <a (click)=\"profileClick()\" class=\"nav-link dropdown-toggle\" id=\"navbarDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" >\n                  {{user.username}}\n                </a>\n                <div  [class.show]=\"profileShow\" class=\"dropdown-menu\"  aria-labelledby=\"navbarDropdown\" >\n                  <a  class=\"dropdown-item\" routerLink=\"/profile\">Profile</a>                  \n                  <div class=\"dropdown-divider\"></div>\n                  <a  class=\"dropdown-item\" (click)=\"logout()\">Logout</a>\n                </div>\n              </li>\n        </ng-template>\n\n    </ul>\n    <form [formGroup] = \"searchForm\" (ngSubmit)=\"onSubmit()\" class=\"form-inline my-2 my-lg-0\">\n      <input formControlName = \"query\" class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\n      <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n    </form>\n  </div>\n</nav>"
 
 /***/ }),
 
@@ -1278,6 +1444,178 @@ var LoginComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/order-detail/order-detail.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/order-detail/order-detail.component.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJvcmRlci1kZXRhaWwvb3JkZXItZGV0YWlsLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/order-detail/order-detail.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/order-detail/order-detail.component.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n  your order id: some number <br>\n  <p>you ordered these products:</p> <p *ngFor = \"let product of orderObject.products\">{{product.name}}</p><br>\n  price paid: {{orderObject.total}}<br>\n  address: {{orderObject.address[0].address_line_1}}\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/order-detail/order-detail.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/order-detail/order-detail.component.ts ***!
+  \********************************************************/
+/*! exports provided: OrderDetailComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrderDetailComponent", function() { return OrderDetailComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../authentication.service */ "./src/app/authentication.service.ts");
+
+
+
+var OrderDetailComponent = /** @class */ (function () {
+    function OrderDetailComponent(auth) {
+        this.auth = auth;
+    }
+    OrderDetailComponent.prototype.ngOnInit = function () {
+        /*   this.auth.createOrder().subscribe((data:Order)=> {
+            this.orderObject = data;
+            console.log(data)}) */
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Object)
+    ], OrderDetailComponent.prototype, "orderObject", void 0);
+    OrderDetailComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-order-detail',
+            template: __webpack_require__(/*! ./order-detail.component.html */ "./src/app/order-detail/order-detail.component.html"),
+            styles: [__webpack_require__(/*! ./order-detail.component.css */ "./src/app/order-detail/order-detail.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"]])
+    ], OrderDetailComponent);
+    return OrderDetailComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/payment-parent/payment-parent.component.css":
+/*!*************************************************************!*\
+  !*** ./src/app/payment-parent/payment-parent.component.css ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJwYXltZW50LXBhcmVudC9wYXltZW50LXBhcmVudC5jb21wb25lbnQuY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/payment-parent/payment-parent.component.html":
+/*!**************************************************************!*\
+  !*** ./src/app/payment-parent/payment-parent.component.html ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<ng-container  *ngIf = \"!this.address\">\n<app-billing-form #addressForm (addressEmitter)= \"getAddress($event)\"></app-billing-form>\n<button class = \"btn btn-primary\"(click)=\"addressForm.onSubmit()\"> Send address</button>\n </ng-container>\n\n <ng-container  *ngIf = \"this.address && !this.order\">\n    <app-billing [amount]='400' #stripe (stripeToken)=\"postToken($event)\">\n    </app-billing>\n    <button class=\"btn btn-primary\" (click)=\"stripe.submitWithoutClicking()\">\n        outside button\n    </button>\n </ng-container>\n <ng-container *ngIf = \"this.order\">\n     <app-order-detail [orderObject]=\"order\"></app-order-detail>\n </ng-container>\n\n"
+
+/***/ }),
+
+/***/ "./src/app/payment-parent/payment-parent.component.ts":
+/*!************************************************************!*\
+  !*** ./src/app/payment-parent/payment-parent.component.ts ***!
+  \************************************************************/
+/*! exports provided: PaymentParentComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PaymentParentComponent", function() { return PaymentParentComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _get_images_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../get-images.service */ "./src/app/get-images.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../authentication.service */ "./src/app/authentication.service.ts");
+
+
+
+
+
+var PaymentParentComponent = /** @class */ (function () {
+    function PaymentParentComponent(httpClient, router, auth) {
+        this.httpClient = httpClient;
+        this.router = router;
+        this.auth = auth;
+    }
+    PaymentParentComponent.prototype.getAddress = function (address) { this.address = address; };
+    PaymentParentComponent.prototype.postToken = function (token) {
+        var _this = this;
+        this.auth.createOrder(token, this.address, this.cart)
+            .subscribe(function (data) {
+            console.log(data, 'order created ^^');
+            if (!data.errors) {
+                _this.order = data;
+                _this.auth.clearCart();
+                //reset cart
+                //this.auth.cart.next()
+            }
+        });
+        /*     console.log('no errors')
+            this.httpClient.sendToken(token).subscribe((data: any) => {
+              console.log(data);
+              if (data.success) {
+                console.log(data)
+                this.router.navigate(['order'])
+              }
+            })
+        
+        
+            console.log(token, 'result!')
+        
+           */ 
+    };
+    PaymentParentComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        //this.auth.createOrder("lsdjldsjf",this.address,this.cart).subscribe(data=>console.log(data, 'order created'))
+        this.cartSubscription = this.auth.cart.subscribe(function (data) { return _this.cart = data; });
+        this.cartSubscription.unsubscribe();
+        this.userSubscription = this.auth.user.subscribe(function (data) {
+            _this.user = data;
+        });
+        this.auth.getAddress().subscribe(function (data) { return _this.address = data; });
+        //se
+    };
+    PaymentParentComponent.prototype.ngOnDestroy = function () {
+        this.userSubscription.unsubscribe();
+    };
+    PaymentParentComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-payment-parent',
+            template: __webpack_require__(/*! ./payment-parent.component.html */ "./src/app/payment-parent/payment-parent.component.html"),
+            styles: [__webpack_require__(/*! ./payment-parent.component.css */ "./src/app/payment-parent/payment-parent.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_get_images_service__WEBPACK_IMPORTED_MODULE_2__["GetImagesService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _authentication_service__WEBPACK_IMPORTED_MODULE_4__["AuthenticationService"]])
+    ], PaymentParentComponent);
+    return PaymentParentComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/product-detail/product-detail.component.css":
 /*!*************************************************************!*\
   !*** ./src/app/product-detail/product-detail.component.css ***!
@@ -1484,7 +1822,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\nHello {{user.name}}\n</p>\n"
+module.exports = "<p>\nHello {{user.username}}\n</p>\n"
 
 /***/ }),
 
@@ -1667,6 +2005,62 @@ var SpecialorderComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
     ], SpecialorderComponent);
     return SpecialorderComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/thankyoupage/thankyoupage.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/thankyoupage/thankyoupage.component.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJ0aGFua3lvdXBhZ2UvdGhhbmt5b3VwYWdlLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/thankyoupage/thankyoupage.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/thankyoupage/thankyoupage.component.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/thankyoupage/thankyoupage.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/thankyoupage/thankyoupage.component.ts ***!
+  \********************************************************/
+/*! exports provided: ThankyoupageComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ThankyoupageComponent", function() { return ThankyoupageComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var ThankyoupageComponent = /** @class */ (function () {
+    function ThankyoupageComponent() {
+    }
+    ThankyoupageComponent.prototype.ngOnInit = function () {
+    };
+    ThankyoupageComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-thankyoupage',
+            template: __webpack_require__(/*! ./thankyoupage.component.html */ "./src/app/thankyoupage/thankyoupage.component.html"),
+            styles: [__webpack_require__(/*! ./thankyoupage.component.css */ "./src/app/thankyoupage/thankyoupage.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+    ], ThankyoupageComponent);
+    return ThankyoupageComponent;
 }());
 
 

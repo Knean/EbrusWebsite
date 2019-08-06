@@ -1,7 +1,7 @@
 from django import forms
 from products.models import Product
 
-class CartForm(forms.Form):
+class ProductForm(forms.Form):
     product_id = forms.IntegerField(max_value=999)
 
     def clean_product_id(self):
