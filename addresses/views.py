@@ -17,31 +17,39 @@ def createAddress(request):
     if request.method == "POST":
         form = AddressForm(request.POST)
         if form.is_valid():
-            address = form.save(commit = False)
+            address = form.save(commit = True)
             user = request.user
             if user.is_authenticated:
-                address.user = user                        
+                address.user = user
+                address.save()                         
             else:
                 request.session['address_id']= address.id
-            address.save()            
+                print(request.session.keys(),' there should be addres id here')
+                request.session.modified = True
+                       
             serializer = AddressSerializer(address,many = False)
             print(address.address_line_1)
+            
             return Response(serializer.data)
         return JsonResponse(form.errors) 
 
 
 @api_view(['GET'])
 def getAddress(request):
+    
     if request.user.is_authenticated:
         try:
             address = request.user.address
         except:
+            print('request.user.address = none')
             return Response(data= None, status =status.HTTP_404_NOT_FOUND)
     else:
+        
         addressID = request.session.get('address_id',None)
         if addressID:
             address = Address.objects.get(id=addressID)
         else:
+            print(request.session.get('address_id'))
             return Response(data= None, status =status.HTTP_404_NOT_FOUND) 
     serializer = AddressSerializer(address,many = False)
     print(address.address_line_1)
