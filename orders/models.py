@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.signals import m2m_changed
 from products.models import Product
 from addresses.models import Address
 from django.contrib.auth.models import User
@@ -30,3 +31,14 @@ class Order(models.Model):
     user = models.ForeignKey(User,on_delete = models.CASCADE,  null =True, blank = True)
     address = models.ManyToManyField(Address)
     total = models.DecimalField(default = 0.00, decimal_places = 2, max_digits = 10)
+
+def order_updated(sender, **kwargs):
+    total = 0
+    if kwargs['action'] == "post_remove" or kwargs['action'] == "post_add":
+        for product in kwargs['instance'].products.all():
+            total += product.price
+        print(kwargs['instance'],' signaaaal')
+    kwargs['instance'].total = total
+    kwargs['instance'].save()
+
+m2m_changed.connect(order_updated, sender = Order.products.through)

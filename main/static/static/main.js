@@ -335,7 +335,7 @@ var AuthenticationService = /** @class */ (function () {
     }
     AuthenticationService.prototype.register = function (username, password) {
         var _this = this;
-        this.http.post("http://127.0.0.1:8000/api/register", { "username": username, "password": password })
+        this.http.post("https://evening-taiga-61292.herokuapp.com/api/register", { "username": username, "password": password })
             .subscribe(function () {
             _this.login(username, password);
             _this.get_user();
@@ -343,7 +343,7 @@ var AuthenticationService = /** @class */ (function () {
     };
     AuthenticationService.prototype.get_user = function () {
         var _this = this;
-        this.http.get("http://127.0.0.1:8000/api/get_user").subscribe(function (data) {
+        this.http.get("https://evening-taiga-61292.herokuapp.com/api/get_user").subscribe(function (data) {
             if (data.username) {
                 _this.user.next(data);
             }
@@ -356,19 +356,19 @@ var AuthenticationService = /** @class */ (function () {
         var _this = this;
         var csrf = this.cookie.getCookie('csrftoken');
         var csrfheader = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'X-CSRFToken': csrf });
-        this.http.post("http://127.0.0.1:8000/api/login", { "username": username, "password": password }, { headers: csrfheader }).
+        this.http.post("https://evening-taiga-61292.herokuapp.com/api/login", { "username": username, "password": password }, { headers: csrfheader }).
             subscribe(function () { return _this.get_user(); });
     };
     AuthenticationService.prototype.logout = function () {
         var _this = this;
-        this.http.get("http://127.0.0.1:8000/api/logout")
+        this.http.get("https://evening-taiga-61292.herokuapp.com/api/logout")
             .subscribe(function () { _this.get_user(); _this.refreshCart(); });
     };
     //add product to the cart in session
     AuthenticationService.prototype.updateCart = function (productid) {
         var _this = this;
         var formdata = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]().set('product_id', productid);
-        this.http.post("http://127.0.0.1:8000/cart/", formdata)
+        this.http.post("https://evening-taiga-61292.herokuapp.com/cart/", formdata)
             .subscribe(function (data) {
             console.log(data);
             _this.refreshCart();
@@ -376,18 +376,17 @@ var AuthenticationService = /** @class */ (function () {
     };
     // get or create a shopping cart
     AuthenticationService.prototype.refreshCart = function () {
-        var _this = this;
-        this.http.get("http://127.0.0.1:8000/getCart/")
-            .subscribe(function (data) { return _this.cart.next(data); });
+        /*         this.http.get("https://evening-taiga-61292.herokuapp.com/getCart/")
+                 .subscribe((data: Cart) => this.cart.next(data)) */
     };
     AuthenticationService.prototype.createAddress = function (address_line_1, address_line_2) {
         var csrf = this.cookie.getCookie('csrftoken');
         var csrfheader = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'X-CSRFToken': csrf });
         var formdata = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]().set('address_line_1', address_line_1).set('address_line_2', address_line_2);
-        return this.http.post("http://127.0.0.1:8000/createAddress/", formdata, { headers: csrfheader });
+        return this.http.post("https://evening-taiga-61292.herokuapp.com/createAddress/", formdata, { headers: csrfheader });
     };
     AuthenticationService.prototype.getAddress = function () {
-        return this.http.get("http://127.0.0.1:8000/getAddress/");
+        return this.http.get("https://evening-taiga-61292.herokuapp.com/getAddress/");
     };
     AuthenticationService.prototype.createOrder = function (token, address, cart) {
         var csrf = this.cookie.getCookie('csrftoken');
@@ -408,11 +407,11 @@ var AuthenticationService = /** @class */ (function () {
             .set('total', '9.99')
             .set('stripe_token', token) */
         userSubscription.unsubscribe();
-        return this.http.post("http://127.0.0.1:8000/create_order", formdata, { headers: csrfheader });
+        return this.http.post("https://evening-taiga-61292.herokuapp.com/create_order", formdata, { headers: csrfheader });
     };
     AuthenticationService.prototype.clearCart = function () {
         var _this = this;
-        return this.http.get("http://127.0.0.1:8000/clear_cart").subscribe(function () { return _this.refreshCart(); });
+        return this.http.get("https://evening-taiga-61292.herokuapp.com/clear_cart").subscribe(function () { return _this.refreshCart(); });
     };
     AuthenticationService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -671,7 +670,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<table class=\"table\">\n    <thead>\n      <tr>\n        <th scope=\"col\">#</th>\n        <th scope=\"col\">Product</th>\n        <th scope=\"col\">Price</th>\n        <th scope=\"col\">Availability</th>\n      </tr>\n    </thead>\n    <tbody>\n\n        <tr *ngFor=\" let product of cart.products; let i = index;\">        \n            <th scope=\"row\">{{i}}</th>\n            <td>{{product.name}} </td>\n            <td>{{product.price}}</td>\n            <td>infinite</td>\n          </tr>\n    </tbody>\n  </table>\n\n  <button class = \"btn btn-primary\"(click)=\"proceed()\">proceed to payment</button>"
+module.exports = "<table class=\"table\">\n    <thead>\n      <tr>\n        <th scope=\"col\">#</th>\n        <th scope=\"col\">Product</th>\n        <th scope=\"col\">Price</th>\n        <th scope=\"col\">Availability</th>\n      </tr>\n    </thead>\n    <tbody>\n\n        <tr *ngFor=\" let product of cart.products; let i = index;\">        \n            <th scope=\"row\">{{i}}</th>\n            <td>{{product.name}} </td>\n            <td>{{product.price}}</td>\n            <td>infinite</td>\n          </tr>\n    </tbody>\n    <p style=\"margin: 10px; font-weight: 900; display: inline\">Total: </p>\n    <p style = \"display: inline\"> {{cart.total}}</p>\n  </table>\n\n  <button class = \"btn btn-primary\"(click)=\"proceed()\">proceed to payment</button>"
 
 /***/ }),
 
@@ -965,16 +964,16 @@ var GetImagesService = /** @class */ (function () {
         }));
     };
     GetImagesService.prototype.searchProducts = function (query) {
-        return this.http.get("http://127.0.0.1:8000/api/search/" + query);
+        return this.http.get("https://evening-taiga-61292.herokuapp.com/api/search/" + query);
     };
     GetImagesService.prototype.getProducts = function () {
-        return this.http.get("http://127.0.0.1:8000/api/products");
+        return this.http.get("https://evening-taiga-61292.herokuapp.com/api/products");
     };
     GetImagesService.prototype.getProductDetail = function (pk) {
-        return this.http.get("http://127.0.0.1:8000/api/products/" + pk);
+        return this.http.get("https://evening-taiga-61292.herokuapp.com/api/products/" + pk);
     };
     GetImagesService.prototype.sendToken = function (token) {
-        return this.http.post("http://127.0.0.1:8000/api/charge", { "token": token.id });
+        return this.http.post("https://evening-taiga-61292.herokuapp.com/api/charge", { "token": token.id });
     };
     GetImagesService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
