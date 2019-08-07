@@ -376,8 +376,9 @@ var AuthenticationService = /** @class */ (function () {
     };
     // get or create a shopping cart
     AuthenticationService.prototype.refreshCart = function () {
-        /*         this.http.get("https://evening-taiga-61292.herokuapp.com/getCart/")
-                 .subscribe((data: Cart) => this.cart.next(data)) */
+        var _this = this;
+        this.http.get("https://evening-taiga-61292.herokuapp.com/getCart/")
+            .subscribe(function (data) { return _this.cart.next(data); });
     };
     AuthenticationService.prototype.createAddress = function (address_line_1, address_line_2) {
         var csrf = this.cookie.getCookie('csrftoken');
