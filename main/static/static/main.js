@@ -209,6 +209,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _payment_parent_payment_parent_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./payment-parent/payment-parent.component */ "./src/app/payment-parent/payment-parent.component.ts");
 /* harmony import */ var _thankyoupage_thankyoupage_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./thankyoupage/thankyoupage.component */ "./src/app/thankyoupage/thankyoupage.component.ts");
 /* harmony import */ var _order_detail_order_detail_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./order-detail/order-detail.component */ "./src/app/order-detail/order-detail.component.ts");
+/* harmony import */ var _chat_chat_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./chat/chat.component */ "./src/app/chat/chat.component.ts");
+
 
 
 
@@ -262,7 +264,8 @@ var AppModule = /** @class */ (function () {
                 _billing_form_billing_form_component__WEBPACK_IMPORTED_MODULE_23__["BillingFormComponent"],
                 _payment_parent_payment_parent_component__WEBPACK_IMPORTED_MODULE_24__["PaymentParentComponent"],
                 _thankyoupage_thankyoupage_component__WEBPACK_IMPORTED_MODULE_25__["ThankyoupageComponent"],
-                _order_detail_order_detail_component__WEBPACK_IMPORTED_MODULE_26__["OrderDetailComponent"]
+                _order_detail_order_detail_component__WEBPACK_IMPORTED_MODULE_26__["OrderDetailComponent"],
+                _chat_chat_component__WEBPACK_IMPORTED_MODULE_27__["ChatComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -335,7 +338,7 @@ var AuthenticationService = /** @class */ (function () {
     }
     AuthenticationService.prototype.register = function (username, password) {
         var _this = this;
-        this.http.post("https://evening-taiga-61292.herokuapp.com/api/register", { "username": username, "password": password })
+        this.http.post("http://127.0.0.1:8000/api/register", { "username": username, "password": password })
             .subscribe(function () {
             _this.login(username, password);
             _this.get_user();
@@ -343,7 +346,7 @@ var AuthenticationService = /** @class */ (function () {
     };
     AuthenticationService.prototype.get_user = function () {
         var _this = this;
-        this.http.get("https://evening-taiga-61292.herokuapp.com/api/get_user").subscribe(function (data) {
+        this.http.get("http://127.0.0.1:8000/api/get_user").subscribe(function (data) {
             if (data.username) {
                 _this.user.next(data);
             }
@@ -356,19 +359,19 @@ var AuthenticationService = /** @class */ (function () {
         var _this = this;
         var csrf = this.cookie.getCookie('csrftoken');
         var csrfheader = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'X-CSRFToken': csrf });
-        this.http.post("https://evening-taiga-61292.herokuapp.com/api/login", { "username": username, "password": password }, { headers: csrfheader }).
+        this.http.post("http://127.0.0.1:8000/api/login", { "username": username, "password": password }, { headers: csrfheader }).
             subscribe(function () { return _this.get_user(); });
     };
     AuthenticationService.prototype.logout = function () {
         var _this = this;
-        this.http.get("https://evening-taiga-61292.herokuapp.com/api/logout")
+        this.http.get("http://127.0.0.1:8000/api/logout")
             .subscribe(function () { _this.get_user(); _this.refreshCart(); });
     };
     //add product to the cart in session
     AuthenticationService.prototype.updateCart = function (productid) {
         var _this = this;
         var formdata = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]().set('product_id', productid);
-        this.http.post("https://evening-taiga-61292.herokuapp.com/cart/", formdata)
+        this.http.post("http://127.0.0.1:8000/cart/", formdata)
             .subscribe(function (data) {
             console.log(data);
             _this.refreshCart();
@@ -377,17 +380,17 @@ var AuthenticationService = /** @class */ (function () {
     // get or create a shopping cart
     AuthenticationService.prototype.refreshCart = function () {
         var _this = this;
-        this.http.get("https://evening-taiga-61292.herokuapp.com/getCart/")
+        this.http.get("http://127.0.0.1:8000/getCart/")
             .subscribe(function (data) { return _this.cart.next(data); });
     };
     AuthenticationService.prototype.createAddress = function (address_line_1, address_line_2) {
         var csrf = this.cookie.getCookie('csrftoken');
         var csrfheader = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'X-CSRFToken': csrf });
         var formdata = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]().set('address_line_1', address_line_1).set('address_line_2', address_line_2);
-        return this.http.post("https://evening-taiga-61292.herokuapp.com/createAddress/", formdata, { headers: csrfheader });
+        return this.http.post("http://127.0.0.1:8000/createAddress/", formdata, { headers: csrfheader });
     };
     AuthenticationService.prototype.getAddress = function () {
-        return this.http.get("https://evening-taiga-61292.herokuapp.com/getAddress/");
+        return this.http.get("http://127.0.0.1:8000/getAddress/");
     };
     AuthenticationService.prototype.createOrder = function (token, address, cart) {
         var csrf = this.cookie.getCookie('csrftoken');
@@ -408,11 +411,11 @@ var AuthenticationService = /** @class */ (function () {
             .set('total', '9.99')
             .set('stripe_token', token) */
         userSubscription.unsubscribe();
-        return this.http.post("https://evening-taiga-61292.herokuapp.com/create_order", formdata, { headers: csrfheader });
+        return this.http.post("http://127.0.0.1:8000/create_order", formdata, { headers: csrfheader });
     };
     AuthenticationService.prototype.clearCart = function () {
         var _this = this;
-        return this.http.get("https://evening-taiga-61292.herokuapp.com/clear_cart").subscribe(function () { return _this.refreshCart(); });
+        return this.http.get("http://127.0.0.1:8000/clear_cart").subscribe(function () { return _this.refreshCart(); });
     };
     AuthenticationService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -647,6 +650,192 @@ var BillingComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_get_images_service__WEBPACK_IMPORTED_MODULE_2__["GetImagesService"]])
     ], BillingComponent);
     return BillingComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/chat/chat.component.css":
+/*!*****************************************!*\
+  !*** ./src/app/chat/chat.component.css ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjaGF0L2NoYXQuY29tcG9uZW50LmNzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/chat/chat.component.html":
+/*!******************************************!*\
+  !*** ./src/app/chat/chat.component.html ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div id=\"chatWindowFrame\" style=\"overflow: auto; height :100px\">\n  <ul>\n   \n    <li *ngFor=\"let message of messages\">{{message.user||\"anonymous\"}}: {{message.message}}</li>\n  </ul>\n\n</div>\n\n<form class=\"form-group\" (ngSubmit)=\"onSubmit()\" [formGroup]=\"chatForm\">\n  <input type=\"text\" class=\"form-control\" formControlName=\"message_box\">\n  <button class=\"btn btn-primary\" (click)=\"submitForm()\"[disabled]= \"chatForm.invalid\">Send </button> \n</form>"
+
+/***/ }),
+
+/***/ "./src/app/chat/chat.component.ts":
+/*!****************************************!*\
+  !*** ./src/app/chat/chat.component.ts ***!
+  \****************************************/
+/*! exports provided: ChatComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChatComponent", function() { return ChatComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _chat_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./chat.service */ "./src/app/chat/chat.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+
+
+
+
+var ChatComponent = /** @class */ (function () {
+    function ChatComponent(chatservice) {
+        this.chatservice = chatservice;
+        this.chatForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormGroup"]({
+            message_box: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormControl"]('', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required)
+        });
+    }
+    //public webSocket: WebSocket
+    ChatComponent.prototype.submitForm = function () {
+        var messagebox = this.chatForm.controls.message_box;
+        this.chatservice.chatSubject.next({
+            'message': messagebox.value
+        });
+        messagebox.reset();
+    };
+    ChatComponent.prototype.sendMessage = function () {
+    };
+    ChatComponent.prototype.scrolltobottom = function () {
+        var chatWindow = document.getElementById("chatWindowFrame");
+        chatWindow.scrollTo(0, chatWindow.scrollHeight);
+    };
+    ChatComponent.prototype.receiveMessage = function (message) {
+        var _this = this;
+        /*scrolls the chat window to the bottom*/
+        console.log(message);
+        this.messages.push(message.message);
+        setTimeout(function () { return _this.scrolltobottom(); }, 150);
+    };
+    ChatComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.chatservice.chatSubject.subscribe(function (msg) { return _this.receiveMessage(msg); }, function (err) { return console.log(err); }, function () { return console.log('complete'); });
+        var mario = this;
+        //this.chatservice.chatSubject.next({message: "message"})
+        /*  webSocket.onmessage = function (e) {
+           var msgData = JSON.parse(e.data)
+           console.log(msgData.message)
+           let message = {
+             "user": {
+               "first": "mario"
+             },
+             "thread": {
+               "second": "gay"
+             },
+             "message": msgData.message
+           }
+           mario.messages.push(message)
+           setTimeout(()=>mario.scrolltobottom(),100)
+           
+         }
+     
+         webSocket.onerror = function (e) {
+           console.log('error', e)
+         }
+         webSocket.onclose = function (e) {
+           console.log('closed', e)
+         } */
+        this.chatservice.get_messages();
+        this.chatservice.messages.subscribe(function (data) { return _this.messages = data; });
+        setTimeout(function () { return mario.scrolltobottom(); }, 1000); //probably stupid?
+        console.log(this.messages);
+    };
+    ChatComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-chat',
+            template: __webpack_require__(/*! ./chat.component.html */ "./src/app/chat/chat.component.html"),
+            styles: [__webpack_require__(/*! ./chat.component.css */ "./src/app/chat/chat.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_chat_service__WEBPACK_IMPORTED_MODULE_2__["ChatService"]])
+    ], ChatComponent);
+    return ChatComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/chat/chat.service.ts":
+/*!**************************************!*\
+  !*** ./src/app/chat/chat.service.ts ***!
+  \**************************************/
+/*! exports provided: ChatService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChatService", function() { return ChatService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var rxjs_webSocket__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/webSocket */ "./node_modules/rxjs/_esm5/webSocket/index.js");
+
+
+
+
+
+var ChatService = /** @class */ (function () {
+    function ChatService(http) {
+        this.http = http;
+        this.chatSubject = Object(rxjs_webSocket__WEBPACK_IMPORTED_MODULE_4__["webSocket"])(this.getString());
+        this.defaultmessage = [{
+                "user": {
+                    "first": "admin"
+                },
+                "thread": {
+                    "second": "anyone"
+                },
+                "message": "this is the first message"
+            }];
+        this.messages = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](this.defaultmessage);
+    }
+    ChatService.prototype.getString = function () {
+        var location = window.location;
+        var wsStart = "ws://";
+        if (location.protocol == "https:") {
+            wsStart = "wss://";
+        }
+        var host = location.host;
+        if (host == "localhost:4200") {
+            host = "127.0.0.1:8000";
+        }
+        console.log(wsStart + host + "/ws/pubchat/");
+        return wsStart + host + "/ws/pubchat/";
+        //return "ws://127.0.0.1:8000/ws/pubchat/"
+    };
+    ChatService.prototype.get_messages = function () {
+        var _this = this;
+        this.http.get("http://127.0.0.1:8000/chat/api/")
+            .subscribe(function (data) {
+            _this.messages.next(data),
+                console.log(_this.messages);
+        });
+    };
+    ChatService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"]])
+    ], ChatService);
+    return ChatService;
 }());
 
 
@@ -965,16 +1154,16 @@ var GetImagesService = /** @class */ (function () {
         }));
     };
     GetImagesService.prototype.searchProducts = function (query) {
-        return this.http.get("https://evening-taiga-61292.herokuapp.com/api/search/" + query);
+        return this.http.get("http://127.0.0.1:8000/api/search/" + query);
     };
     GetImagesService.prototype.getProducts = function () {
-        return this.http.get("https://evening-taiga-61292.herokuapp.com/api/products");
+        return this.http.get("http://127.0.0.1:8000/api/products");
     };
     GetImagesService.prototype.getProductDetail = function (pk) {
-        return this.http.get("https://evening-taiga-61292.herokuapp.com/api/products/" + pk);
+        return this.http.get("http://127.0.0.1:8000/api/products/" + pk);
     };
     GetImagesService.prototype.sendToken = function (token) {
-        return this.http.post("https://evening-taiga-61292.herokuapp.com/api/charge", { "token": token.id });
+        return this.http.post("http://127.0.0.1:8000/api/charge", { "token": token.id });
     };
     GetImagesService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -1194,7 +1383,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <ul>\n  <li *ngFor= \"let value of images\"><p>{{value.name}}</p><img src=\"{{value.url}}\"></li>\n</ul> -->\n<app-carousel></app-carousel>\n<button class=\"btn btn-primary\">dont click</button>\n\n<div class=\"container-fluid\">\n\n  <div class=\"row justify-content-center\">\n    <app-image-links></app-image-links>\n  </div>\n  <div class=\"row justify-content-center\">\n    <app-link-cards></app-link-cards>\n  </div>\n\n  <div class=\"row justify-content-center\">\n    <h1> PAY US A VISIT</h1>\n  </div>\n  <div class=\"row justify-content-center\">\n  <p>\n    Stop by our shop at some address\n  </p>\n\n</div>\n</div>"
+module.exports = "<!-- <ul>\n  <li *ngFor= \"let value of images\"><p>{{value.name}}</p><img src=\"{{value.url}}\"></li>\n</ul> -->\n<app-carousel></app-carousel>\n\n\n<div class=\"container-fluid\">\n\n  <div class=\"row justify-content-center\">\n    <!-- <app-image-links></app-image-links> -->\n    <app-chat style= \"width:80%\"></app-chat>\n  </div>\n  <div class=\"row justify-content-center\">\n    <app-link-cards></app-link-cards>\n    \n  </div>\n\n  <div class=\"row justify-content-center\">\n    <h1> PAY US A VISIT</h1>\n  </div>\n  <div class=\"row justify-content-center\">\n    <p>\n      Stop by our shop at some address\n    </p>\n\n  </div>\n</div>"
 
 /***/ }),
 

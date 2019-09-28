@@ -21,7 +21,8 @@ from addresses.views import getAddress, createAddress
 from orders.views import order_detail, create_order
 
 urlpatterns = [
-    path('admin/', admin.site.urls),    
+    path('admin/', admin.site.urls), 
+    path('chat/',include('chat.urls')),   
     path('api-auth/', include('rest_framework.urls')),
     path('api/',include('products.urls')),
     path('cart/',updatecart),

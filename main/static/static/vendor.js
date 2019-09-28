@@ -78587,6 +78587,267 @@ function defer(observableFactory) {
 
 /***/ }),
 
+/***/ "./node_modules/rxjs/_esm5/internal/observable/dom/WebSocketSubject.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/rxjs/_esm5/internal/observable/dom/WebSocketSubject.js ***!
+  \*****************************************************************************/
+/*! exports provided: WebSocketSubject */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WebSocketSubject", function() { return WebSocketSubject; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _Subject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Subject */ "./node_modules/rxjs/_esm5/internal/Subject.js");
+/* harmony import */ var _Subscriber__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Subscriber */ "./node_modules/rxjs/_esm5/internal/Subscriber.js");
+/* harmony import */ var _Observable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Observable */ "./node_modules/rxjs/_esm5/internal/Observable.js");
+/* harmony import */ var _Subscription__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Subscription */ "./node_modules/rxjs/_esm5/internal/Subscription.js");
+/* harmony import */ var _ReplaySubject__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../ReplaySubject */ "./node_modules/rxjs/_esm5/internal/ReplaySubject.js");
+/* harmony import */ var _util_tryCatch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/tryCatch */ "./node_modules/rxjs/_esm5/internal/util/tryCatch.js");
+/* harmony import */ var _util_errorObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../util/errorObject */ "./node_modules/rxjs/_esm5/internal/util/errorObject.js");
+/** PURE_IMPORTS_START tslib,_.._Subject,_.._Subscriber,_.._Observable,_.._Subscription,_.._ReplaySubject,_.._util_tryCatch,_.._util_errorObject PURE_IMPORTS_END */
+
+
+
+
+
+
+
+
+var DEFAULT_WEBSOCKET_CONFIG = {
+    url: '',
+    deserializer: function (e) { return JSON.parse(e.data); },
+    serializer: function (value) { return JSON.stringify(value); },
+};
+var WEBSOCKETSUBJECT_INVALID_ERROR_OBJECT = 'WebSocketSubject.error must be called with an object with an error code, and an optional reason: { code: number, reason: string }';
+var WebSocketSubject = /*@__PURE__*/ (function (_super) {
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"](WebSocketSubject, _super);
+    function WebSocketSubject(urlConfigOrSource, destination) {
+        var _this = _super.call(this) || this;
+        if (urlConfigOrSource instanceof _Observable__WEBPACK_IMPORTED_MODULE_3__["Observable"]) {
+            _this.destination = destination;
+            _this.source = urlConfigOrSource;
+        }
+        else {
+            var config = _this._config = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, DEFAULT_WEBSOCKET_CONFIG);
+            _this._output = new _Subject__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+            if (typeof urlConfigOrSource === 'string') {
+                config.url = urlConfigOrSource;
+            }
+            else {
+                for (var key in urlConfigOrSource) {
+                    if (urlConfigOrSource.hasOwnProperty(key)) {
+                        config[key] = urlConfigOrSource[key];
+                    }
+                }
+            }
+            if (!config.WebSocketCtor && WebSocket) {
+                config.WebSocketCtor = WebSocket;
+            }
+            else if (!config.WebSocketCtor) {
+                throw new Error('no WebSocket constructor can be found');
+            }
+            _this.destination = new _ReplaySubject__WEBPACK_IMPORTED_MODULE_5__["ReplaySubject"]();
+        }
+        return _this;
+    }
+    WebSocketSubject.prototype.lift = function (operator) {
+        var sock = new WebSocketSubject(this._config, this.destination);
+        sock.operator = operator;
+        sock.source = this;
+        return sock;
+    };
+    WebSocketSubject.prototype._resetState = function () {
+        this._socket = null;
+        if (!this.source) {
+            this.destination = new _ReplaySubject__WEBPACK_IMPORTED_MODULE_5__["ReplaySubject"]();
+        }
+        this._output = new _Subject__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+    };
+    WebSocketSubject.prototype.multiplex = function (subMsg, unsubMsg, messageFilter) {
+        var self = this;
+        return new _Observable__WEBPACK_IMPORTED_MODULE_3__["Observable"](function (observer) {
+            var result = Object(_util_tryCatch__WEBPACK_IMPORTED_MODULE_6__["tryCatch"])(subMsg)();
+            if (result === _util_errorObject__WEBPACK_IMPORTED_MODULE_7__["errorObject"]) {
+                observer.error(_util_errorObject__WEBPACK_IMPORTED_MODULE_7__["errorObject"].e);
+            }
+            else {
+                self.next(result);
+            }
+            var subscription = self.subscribe(function (x) {
+                var result = Object(_util_tryCatch__WEBPACK_IMPORTED_MODULE_6__["tryCatch"])(messageFilter)(x);
+                if (result === _util_errorObject__WEBPACK_IMPORTED_MODULE_7__["errorObject"]) {
+                    observer.error(_util_errorObject__WEBPACK_IMPORTED_MODULE_7__["errorObject"].e);
+                }
+                else if (result) {
+                    observer.next(x);
+                }
+            }, function (err) { return observer.error(err); }, function () { return observer.complete(); });
+            return function () {
+                var result = Object(_util_tryCatch__WEBPACK_IMPORTED_MODULE_6__["tryCatch"])(unsubMsg)();
+                if (result === _util_errorObject__WEBPACK_IMPORTED_MODULE_7__["errorObject"]) {
+                    observer.error(_util_errorObject__WEBPACK_IMPORTED_MODULE_7__["errorObject"].e);
+                }
+                else {
+                    self.next(result);
+                }
+                subscription.unsubscribe();
+            };
+        });
+    };
+    WebSocketSubject.prototype._connectSocket = function () {
+        var _this = this;
+        var _a = this._config, WebSocketCtor = _a.WebSocketCtor, protocol = _a.protocol, url = _a.url, binaryType = _a.binaryType;
+        var observer = this._output;
+        var socket = null;
+        try {
+            socket = protocol ?
+                new WebSocketCtor(url, protocol) :
+                new WebSocketCtor(url);
+            this._socket = socket;
+            if (binaryType) {
+                this._socket.binaryType = binaryType;
+            }
+        }
+        catch (e) {
+            observer.error(e);
+            return;
+        }
+        var subscription = new _Subscription__WEBPACK_IMPORTED_MODULE_4__["Subscription"](function () {
+            _this._socket = null;
+            if (socket && socket.readyState === 1) {
+                socket.close();
+            }
+        });
+        socket.onopen = function (e) {
+            var openObserver = _this._config.openObserver;
+            if (openObserver) {
+                openObserver.next(e);
+            }
+            var queue = _this.destination;
+            _this.destination = _Subscriber__WEBPACK_IMPORTED_MODULE_2__["Subscriber"].create(function (x) {
+                if (socket.readyState === 1) {
+                    var serializer = _this._config.serializer;
+                    var msg = Object(_util_tryCatch__WEBPACK_IMPORTED_MODULE_6__["tryCatch"])(serializer)(x);
+                    if (msg === _util_errorObject__WEBPACK_IMPORTED_MODULE_7__["errorObject"]) {
+                        _this.destination.error(_util_errorObject__WEBPACK_IMPORTED_MODULE_7__["errorObject"].e);
+                        return;
+                    }
+                    socket.send(msg);
+                }
+            }, function (e) {
+                var closingObserver = _this._config.closingObserver;
+                if (closingObserver) {
+                    closingObserver.next(undefined);
+                }
+                if (e && e.code) {
+                    socket.close(e.code, e.reason);
+                }
+                else {
+                    observer.error(new TypeError(WEBSOCKETSUBJECT_INVALID_ERROR_OBJECT));
+                }
+                _this._resetState();
+            }, function () {
+                var closingObserver = _this._config.closingObserver;
+                if (closingObserver) {
+                    closingObserver.next(undefined);
+                }
+                socket.close();
+                _this._resetState();
+            });
+            if (queue && queue instanceof _ReplaySubject__WEBPACK_IMPORTED_MODULE_5__["ReplaySubject"]) {
+                subscription.add(queue.subscribe(_this.destination));
+            }
+        };
+        socket.onerror = function (e) {
+            _this._resetState();
+            observer.error(e);
+        };
+        socket.onclose = function (e) {
+            _this._resetState();
+            var closeObserver = _this._config.closeObserver;
+            if (closeObserver) {
+                closeObserver.next(e);
+            }
+            if (e.wasClean) {
+                observer.complete();
+            }
+            else {
+                observer.error(e);
+            }
+        };
+        socket.onmessage = function (e) {
+            var deserializer = _this._config.deserializer;
+            var result = Object(_util_tryCatch__WEBPACK_IMPORTED_MODULE_6__["tryCatch"])(deserializer)(e);
+            if (result === _util_errorObject__WEBPACK_IMPORTED_MODULE_7__["errorObject"]) {
+                observer.error(_util_errorObject__WEBPACK_IMPORTED_MODULE_7__["errorObject"].e);
+            }
+            else {
+                observer.next(result);
+            }
+        };
+    };
+    WebSocketSubject.prototype._subscribe = function (subscriber) {
+        var _this = this;
+        var source = this.source;
+        if (source) {
+            return source.subscribe(subscriber);
+        }
+        if (!this._socket) {
+            this._connectSocket();
+        }
+        this._output.subscribe(subscriber);
+        subscriber.add(function () {
+            var _socket = _this._socket;
+            if (_this._output.observers.length === 0) {
+                if (_socket && _socket.readyState === 1) {
+                    _socket.close();
+                }
+                _this._resetState();
+            }
+        });
+        return subscriber;
+    };
+    WebSocketSubject.prototype.unsubscribe = function () {
+        var _a = this, source = _a.source, _socket = _a._socket;
+        if (_socket && _socket.readyState === 1) {
+            _socket.close();
+            this._resetState();
+        }
+        _super.prototype.unsubscribe.call(this);
+        if (!source) {
+            this.destination = new _ReplaySubject__WEBPACK_IMPORTED_MODULE_5__["ReplaySubject"]();
+        }
+    };
+    return WebSocketSubject;
+}(_Subject__WEBPACK_IMPORTED_MODULE_1__["AnonymousSubject"]));
+
+//# sourceMappingURL=WebSocketSubject.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/rxjs/_esm5/internal/observable/dom/webSocket.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/rxjs/_esm5/internal/observable/dom/webSocket.js ***!
+  \**********************************************************************/
+/*! exports provided: webSocket */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "webSocket", function() { return webSocket; });
+/* harmony import */ var _WebSocketSubject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WebSocketSubject */ "./node_modules/rxjs/_esm5/internal/observable/dom/WebSocketSubject.js");
+/** PURE_IMPORTS_START _WebSocketSubject PURE_IMPORTS_END */
+
+function webSocket(urlConfigOrSource) {
+    return new _WebSocketSubject__WEBPACK_IMPORTED_MODULE_0__["WebSocketSubject"](urlConfigOrSource);
+}
+//# sourceMappingURL=webSocket.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/rxjs/_esm5/internal/observable/empty.js":
 /*!**************************************************************!*\
   !*** ./node_modules/rxjs/_esm5/internal/observable/empty.js ***!
@@ -88837,6 +89098,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/rxjs/_esm5/webSocket/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/rxjs/_esm5/webSocket/index.js ***!
+  \****************************************************/
+/*! exports provided: webSocket, WebSocketSubject */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _internal_observable_dom_webSocket__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../internal/observable/dom/webSocket */ "./node_modules/rxjs/_esm5/internal/observable/dom/webSocket.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "webSocket", function() { return _internal_observable_dom_webSocket__WEBPACK_IMPORTED_MODULE_0__["webSocket"]; });
+
+/* harmony import */ var _internal_observable_dom_WebSocketSubject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../internal/observable/dom/WebSocketSubject */ "./node_modules/rxjs/_esm5/internal/observable/dom/WebSocketSubject.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "WebSocketSubject", function() { return _internal_observable_dom_WebSocketSubject__WEBPACK_IMPORTED_MODULE_1__["WebSocketSubject"]; });
+
+/** PURE_IMPORTS_START  PURE_IMPORTS_END */
 
 
 //# sourceMappingURL=index.js.map

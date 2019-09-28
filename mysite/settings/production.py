@@ -145,3 +145,15 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_KEY','XWX2hBn3TweepJEmu5va7EUECQBgM8
 AWS_STORAGE_BUCKET_NAME = 'ebrusnewbucket'
 
 STRIPE_TEST_API_KEY = os.environ.get('STRIPE_TEST_API_KEY')
+
+STRIPE_TEST_API_KEY = 'sk_test_0j3FEaawjLV9uYKwlriS93L4'
+
+ASGI_APPLICATION = "mysite.routing.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+             "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },
+    },
+}

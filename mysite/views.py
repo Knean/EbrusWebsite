@@ -2,6 +2,8 @@ from django.views.generic.list import ListView, View
 from main.models import ToyModel
 from django.shortcuts import render
 from addresses.models import Address
+
+
 class home_page(View,):
     template_name = 'main/index.html'
     
