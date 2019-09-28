@@ -1,1 +1,1 @@
-daphne -p 8000 myproject.asgi:application
+daphne -p 8000 mysite.asgi:application
