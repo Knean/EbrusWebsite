@@ -159,4 +159,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
+CORS_REPLACE_HTTPS_REFERER      = True
+HOST_SCHEME                     = "https://"
 SECURE_SSL_REDIRECT             = True
